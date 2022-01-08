@@ -112,13 +112,11 @@ import UndoRedo from './undoRedo';
             }
           }
         } 
-        this.deleteAndCopyColor()
       });
 
       this.stage.on('click',  (e)=> {
         if(e.evt.which == 1){
           this.Selecting.click(e , this.stage)
-          this.deleteAndCopyColor()
         }
       }); 
       
@@ -126,47 +124,25 @@ import UndoRedo from './undoRedo';
     }
 
     //for doing the event
-    colour( y:string)
-    {
-      this.color=y
-      
-    }
-    strkewidth(y:number )
-    {
-      this.stroke=y
-    }
+  
     
     create(name:string)
     {
-      if(name=="arrow"){
-        var wedge = new Konva.Wedge({
-          x: 200,
-          y: 500 / 2,
-          radius: 70,
-          angle: 60,
-          fill: 'gold',
-          stroke: 'black',
-          strokeWidth: 4,
-          rotation: -120
-        });
-                this.layer.add(wedge)    
-      }
-      else{
+
       this.Selecting.editDragable(false)
-      if(this.drawMode)
-        this.changeDrawMode()
       var shift = this.operations.checkForShift(this.layer , name)
       this.b = this.shapeCreator.createShape(name,this.color, 150+shift, 150+shift,this.stroke)
-      var rectangle = new Konva.Group({        
+      var shp = new Konva.Group({        
         x: 150+shift, 
         y: 150+shift, 
         width: 130,
         height: 25,
         rotation: 0, 
         draggable: true,
+        name:"rect"
       })
       if (name=="rectangle"){
-      rectangle.add(new Konva.Rect({
+      shp.add(new Konva.Rect({
         
         width: 75,
         height: 75,
@@ -174,7 +150,7 @@ import UndoRedo from './undoRedo';
         strokeWidth: 3,
         fill: 'lightblue'
     }));
-    rectangle.add(new Konva.Text({
+    shp.add(new Konva.Text({
       x:15,
       y:5,
       text:"Q"+this.q,
@@ -189,14 +165,14 @@ import UndoRedo from './undoRedo';
     this.q++;
      }
       else{
-      rectangle.add(new Konva.Circle({
+      shp.add(new Konva.Circle({
         
         radius:75/2,
         stroke: "rgb(0,0,0)",
         strokeWidth: 3,
         fill: 'red'
     }));
-      rectangle.add(new Konva.Text({
+      shp.add(new Konva.Text({
         x:-25,
         y:-20,
         text:"M"+this.m,
@@ -209,12 +185,11 @@ import UndoRedo from './undoRedo';
       }));
       this.m++;
     }
-      this.layer.add(rectangle)
+      this.layer.add(shp)
       this.addSelection()
       this.requests.createRequest(this.b)
-      this.deleteAndCopyColor()
 
-    }
+    
   }
     addSelection(){
       this.Selecting.selectedShapes = [this.b]
@@ -223,154 +198,7 @@ import UndoRedo from './undoRedo';
       this.layer.add(this.Selecting.selected)
     }
  
-    changeDrawMode()
-    {
-      this.drawMode = !this.drawMode
-      if(this.drawMode){
-        this.Selecting.emptytr()
-        this.drawflag = false
-      }else if(this.drawflag)
-        this.addSelection()
 
-      this.backGround()
-      this.Selecting.selectedShapes = []
-      this.deleteAndCopyColor()
-
-    }
-    arrowDraw(){
-
-      let arrow:any;
-      this.stage.on('mousedown', () => {
-         const pos = this.stage.getPointerPosition();
-          arrow = new Konva.Arrow({
-            points: [pos!.x, pos!.y],
-            stroke: 'black',
-            fill: 'black'
-          });
-          this.layer.add(arrow);
-          this.layer.batchDraw();
-      });
-      
-      this.stage.on('mousemove', () => {
-        if (arrow) {
-            const pos = this.stage.getPointerPosition();
-            const points = [arrow.points()[0], arrow.points()[1], pos!.x, pos!.y];
-            arrow.points(points);
-            this.layer.batchDraw();
-        }
-      });
-      
-      this.stage.on('mouseup', () => {
-        arrow = null;
-      });
-    }
-    backGround(){
-      if(this.drawMode){
-        document.getElementById('draw')!.style.backgroundColor ="#777777";
-      }else{
-        document.getElementById('draw')!.style.backgroundColor = "rgb(255, 255, 255)";
-      }
-    }
-
-    deleteAndCopyColor(){
-      if(this.Selecting.selectedShapes.length !=0){
-        document.getElementById('copy')!.style.color ="orange";
-        document.getElementById('delete')!.style.color ="orange";
-        document.getElementById('copy2')!.style.color ="orange";
-        document.getElementById('delete2')!.style.color ="orange";
-        document.getElementById('fill')!.style.color ="orange";
-
-      }else{
-        document.getElementById('copy')!.style.color ="#111";
-        document.getElementById('delete')!.style.color ="#111";
-        document.getElementById('copy2')!.style.color ="#111";
-        document.getElementById('delete2')!.style.color ="#111";
-        document.getElementById('fill')!.style.color ="#111";
-
-      }
-    }
-
-    remove()
-    {
-      this.requests.deleteReqest(this.Selecting.selectedShapes)
-      this.operations.delete(this.Selecting.selectedShapes)
-      this.Selecting.emptytr()
-      this.Selecting.selectedShapes = []
-      this.deleteAndCopyColor()
-
-    }
-    fill()
-    {
-      this.ColorsOp.full(this.Selecting.selectedShapes,this.color)
-      this.requests.editRequest(this.Selecting.selectedShapes)
-
-    }
-    changecolr()
-    {
-      if(!this.drawMode){
-        this.ColorsOp.changeColor(this.Selecting.selectedShapes,this.color)
-        this.requests.editRequest(this.Selecting.selectedShapes)
-      }
-
-    }
-
-    changeline()
-    {
-      
-      this.ColorsOp.strokewidth(this.Selecting.selectedShapes,this.stroke)
-      this.requests.editRequest(this.Selecting.selectedShapes)
-    }
-
-    copy(){
-      if(this.Selecting.selectedShapes.length !=0){
-        this.requests.copyRequest(this.Selecting.selectedShapes, [this.Selecting.tr.getAttr("x"), this.Selecting.tr.getAttr("y")] )
-
-        document.getElementById('copyButton')!.style.backgroundColor ="#777777";
-        document.getElementById('paste')!.style.color ="orange";
-        document.getElementById('paste2')!.style.color ="orange";
-        
-        this.copyflag = true
-      }
-    }
-    paste(){
-      if(this.copyflag){
-        var pos = this.stage.getPointerPosition()!
-        var shapes =this.requests.pastRequest([pos.x, pos.y], this.layer)
-
-        document.getElementById('copyButton')!.style.backgroundColor ="rgb(255, 255, 255)";
-        document.getElementById('paste')!.style.color ="#111";
-        document.getElementById('paste2')!.style.color ="#111";
-
-        this.copyflag = false
-      }
-    }
-    undo()
-    {
-      this.requests.undorequest(this.stage,this.layer)
-      
-      this.Selecting.selectedShapes = []
-      this.Selecting.emptytr()
-      this.deleteAndCopyColor()
-
-    }
-    redo()
-    {
-      this.requests.redorequest(this.stage,this.layer)
-
-      this.Selecting.selectedShapes = []
-      this.Selecting.emptytr()
-      this.deleteAndCopyColor()
-
-    }
-    save()
-    {
-      this.requests.saverequest()
-    }
-
-    load()
-    {
-      this.requests.loadrequest(this.layer  )
-    }
     clear()
     {
       this.layer.removeChildren()
@@ -381,65 +209,14 @@ import UndoRedo from './undoRedo';
     constructor(public http: HttpClient,private _hotkeysService: HotkeysService){ 
       this.q=0
       this.m=0
-      this._hotkeysService.add(new Hotkey('del', (event: KeyboardEvent): boolean => {
-        this.remove();
-        return false; // Prevent bubbling
-      }));
-      this._hotkeysService.add(new Hotkey('ctrl+c', (event: KeyboardEvent): boolean => {
-        this.copy();
-        return false; // Prevent bubbling
-      }));
-      this._hotkeysService.add(new Hotkey('ctrl+v', (event: KeyboardEvent): boolean => {
-        this.paste();
-        return false; // Prevent bubbling
-      }));
-      this._hotkeysService.add(new Hotkey('ctrl+z', (event: KeyboardEvent): boolean => {
-        this.undo();
-        return false; // Prevent bubbling
-      }));
-      this._hotkeysService.add(new Hotkey('ctrl+y', (event: KeyboardEvent): boolean => {
-        this.redo();
-        return false; // Prevent bubbling
-      }));
-      this._hotkeysService.add(new Hotkey('ctrl+s', (event: KeyboardEvent): boolean => {
-        this.save();
-        return false; // Prevent bubbling
-      }));
-      this._hotkeysService.add(new Hotkey('ctrl+l', (event: KeyboardEvent): boolean => {
-        this.load();
-        return false; // Prevent bubbling
-      }));
-      this._hotkeysService.add(new Hotkey('f', (event: KeyboardEvent): boolean => {
-        this.fill();
-        return false; // Prevent bubbling
-      }));
-      this._hotkeysService.add(new Hotkey('d', (event: KeyboardEvent): boolean => {
-        this.changeDrawMode();
-        return false; // Prevent bubbling
-      })); 
-      this._hotkeysService.add(new Hotkey('s', (event: KeyboardEvent): boolean => {
-        this.create("square");
-        return false; // Prevent bubbling
-      }));
       this._hotkeysService.add(new Hotkey('r', (event: KeyboardEvent): boolean => {
         this.create("rectangle");
-        return false; // Prevent bubbling
-      }));
-      this._hotkeysService.add(new Hotkey('l', (event: KeyboardEvent): boolean => {
-        this.create("line");
         return false; // Prevent bubbling
       }));
       this._hotkeysService.add(new Hotkey('c', (event: KeyboardEvent): boolean => {
         this.create("circle");
         return false; // Prevent bubbling
       }));
-      this._hotkeysService.add(new Hotkey('t', (event: KeyboardEvent): boolean => {
-        this.create("triangle");
-        return false; // Prevent bubbling
-      }));
-      this._hotkeysService.add(new Hotkey('e', (event: KeyboardEvent): boolean => {
-        this.create("ellipse");
-        return false; // Prevent bubbling
-      }));
+
     }
   }
