@@ -168,8 +168,7 @@ import {HotkeysService , Hotkey} from 'angular2-hotkeys';
       this.m++;
     }
       this.layer.add(shp)
-      this.addSelection()
-
+      this.layer.draw()
     
   }
     addSelection(){
