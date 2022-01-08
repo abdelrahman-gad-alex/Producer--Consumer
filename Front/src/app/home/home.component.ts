@@ -1,15 +1,10 @@
 import { Component, OnInit ,ViewChild,ElementRef } from '@angular/core';
 import Konva from 'Konva';
-import Shapes from "./shapes";
 import Operation from "./operation";
-import Draw from "./freeDraw"
-import Colors from "./colors"
 import Selecting from "./selecting"
-import Request from './request';
 import { HttpClient } from '@angular/common/http';
 import { observable } from 'rxjs';
 import {HotkeysService , Hotkey} from 'angular2-hotkeys';
-import UndoRedo from './undoRedo';
 
 @Component({
     selector: 'home',
@@ -21,16 +16,11 @@ import UndoRedo from './undoRedo';
     m:any
     q:any
     b:any
-    requests:any = new Request(this.http)
-    shapeCreator: any = new Shapes
     operations: any = new Operation
-    ColorsOp: any = new Colors
     Selecting: any = new Selecting
-    FreeDraw: Draw = new Draw
     drawMode: boolean = false
     drawflag: boolean = false
     copyflag: boolean = false
-    Undo:any = new UndoRedo
     stage!: Konva.Stage;
     layer!: Konva.Layer;
  
@@ -70,7 +60,6 @@ import UndoRedo from './undoRedo';
 
         this.stage.on('mousedown', (e) => {
         if(this.drawMode){
-            this.FreeDraw.startDraw(this.layer,this.color,this.stroke)
             this.drawflag = true
         }else{
           if (e.target !==this.stage){
@@ -84,7 +73,6 @@ import UndoRedo from './undoRedo';
 
       this.stage.on('mousemove', (e) => {
         if(this.drawMode){
-          this.FreeDraw.draw(this.layer)
         }else{
           
           inn= false
@@ -97,17 +85,12 @@ import UndoRedo from './undoRedo';
 
       this.stage.on('mouseup', (e) => {
         if(this.drawMode){
-          this.FreeDraw.endDraw()
-          this.b = this.FreeDraw.line
-          this.requests.createRequest(this.b)
-
         }else{
           
           this.Selecting.mouseUp(e , this.stage)
           if(this.Selecting.selectedShapes.length !=0){
            
             if(!inn && this.Selecting.move && this.Selecting.tr.nodes().length != 0){
-              this.requests.editRequest(this.Selecting.selectedShapes)
               
             }
           }
@@ -131,7 +114,6 @@ import UndoRedo from './undoRedo';
 
       this.Selecting.editDragable(false)
       var shift = this.operations.checkForShift(this.layer , name)
-      this.b = this.shapeCreator.createShape(name,this.color, 150+shift, 150+shift,this.stroke)
       var shp = new Konva.Group({        
         x: 150+shift, 
         y: 150+shift, 
@@ -187,7 +169,6 @@ import UndoRedo from './undoRedo';
     }
       this.layer.add(shp)
       this.addSelection()
-      this.requests.createRequest(this.b)
 
     
   }
