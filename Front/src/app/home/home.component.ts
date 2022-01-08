@@ -1,6 +1,8 @@
 import { Component, OnInit ,ViewChild,ElementRef } from '@angular/core';
 import Konva from 'Konva';
 import Operation from "./operation";
+import Arrow from "./arrow";
+
 import Selecting from "./selecting"
 import { HttpClient } from '@angular/common/http';
 import { observable } from 'rxjs';
@@ -21,7 +23,11 @@ import {HotkeysService , Hotkey} from 'angular2-hotkeys';
 
     stage!: Konva.Stage;
     layer!: Konva.Layer;
- 
+
+    drawingArrow : boolean = false
+    shape1!: Konva.Shape
+    shape2!: Konva.Shape
+
     color: string = 'black'
    stroke:number=3
    @ViewChild('menu ') menu!:ElementRef
@@ -83,6 +89,14 @@ import {HotkeysService , Hotkey} from 'angular2-hotkeys';
 
       this.stage.on('click',  (e)=> {
         this.Selecting.click(e , this.stage)
+        if(!this.drawingArrow){
+          this.shape1 = this.Selecting.selectedShapes[0]
+          this.drawingArrow = true
+        }else{
+          this.shape2 = this.Selecting.selectedShapes[0]
+          let arr = new Arrow(this.layer, this.shape1, this.shape2)
+          this.drawingArrow=false
+        }
         
       }); 
       
@@ -95,7 +109,6 @@ import {HotkeysService , Hotkey} from 'angular2-hotkeys';
     create(name:string)
     {
 
-      this.Selecting.editDragable(false)
       var shift = this.operations.checkForShift(this.layer , name)
       var shp = new Konva.Group({        
         x: 150+shift, 
@@ -113,7 +126,9 @@ import {HotkeysService , Hotkey} from 'angular2-hotkeys';
         height: 75,
         stroke: "rgb(0,0,0)",
         strokeWidth: 3,
-        fill: 'lightblue'
+        fill: 'lightblue',
+        name:"rect"
+
     }));
     shp.add(new Konva.Text({
       x:15,
@@ -135,7 +150,9 @@ import {HotkeysService , Hotkey} from 'angular2-hotkeys';
         radius:75/2,
         stroke: "rgb(0,0,0)",
         strokeWidth: 3,
-        fill: 'red'
+        fill: 'red',
+        name:"rect"
+
     }));
       shp.add(new Konva.Text({
         x:-25,

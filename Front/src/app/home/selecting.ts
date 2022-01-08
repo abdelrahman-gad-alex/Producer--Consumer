@@ -24,7 +24,6 @@ class Selecting{
     }
 
     mouseDown(e:any , stage: Konva.Stage){
-        this.editDragable(false)
 
         e.evt.preventDefault();
         this.x1 = stage.getPointerPosition()?.x;
@@ -66,12 +65,10 @@ class Selecting{
           );
           this.tr.nodes(select);
           this.selectedShapes = select
-          this.editDragable(true)
           console.log(this.selectedShapes.length)
     }
 
     click(e:any , stage: Konva.Stage){
-          this.editDragable(false)
           if (this.selected.visible()) {
             return;
           }
@@ -95,18 +92,13 @@ class Selecting{
             this.tr.nodes(nodes);
           }
           this.selectedShapes= [e.target]
-          this.editDragable(true)
     }
 
     emptytr(){
         this.tr.nodes([]);
     }
     
-    editDragable(check: boolean){
-      for(let i=0; i< this.selectedShapes.length ; i++){
-        this.selectedShapes[i].setAttr("draggable", check)
-      }
-    }
+
 
 
 }

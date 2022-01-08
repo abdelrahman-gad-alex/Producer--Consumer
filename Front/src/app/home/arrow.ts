@@ -4,7 +4,7 @@ class Arrow{
     shape1: Konva.Shape
     shape2: Konva.Shape
     layer: Konva.Layer
-    arrow: Konva.Arrow
+    arrow: Konva.Line
 
     constructor(layer: Konva.Layer, shape1: Konva.Shape , shape2: Konva.Shape){
         this.shape1 = shape1
@@ -18,8 +18,11 @@ class Arrow{
     }
 
     Arrow(){
-        var arrow = new Konva.Arrow({
-            points: [this.shape1.getAttr("x") , this.shape1.getAttr("y")  ,this.shape2.getAttr("x")  ,this.shape2.getAttr("y") ],
+        let pos1 = this.shape1.getAbsolutePosition()
+        let pos2 = this.shape1.getAbsolutePosition()
+
+        var arrow = new Konva.Line({
+            points: [pos1.x , pos1.y  , pos2.x , pos2.y ],
             pointerLength: 10,
             pointerWidth: 10,
             fill: 'black',
@@ -32,7 +35,9 @@ class Arrow{
     }
 
     public update(){
-        var p=[this.shape1.getAttr("x") , this.shape1.getAttr("y")  ,this.shape2.getAttr("x")  ,this.shape2.getAttr("y") ];
+        let pos1 = this.shape1.getAbsolutePosition()
+        let pos2 = this.shape1.getAbsolutePosition()
+        var p=[pos1.x , pos1.y  , pos2.x , pos2.y ];
         this.arrow.setAttr("points", p) ;
         this.layer.draw();
 
