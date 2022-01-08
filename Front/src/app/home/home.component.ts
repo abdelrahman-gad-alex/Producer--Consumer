@@ -18,9 +18,7 @@ import {HotkeysService , Hotkey} from 'angular2-hotkeys';
     b:any
     operations: any = new Operation
     Selecting: any = new Selecting
-    drawMode: boolean = false
-    drawflag: boolean = false
-    copyflag: boolean = false
+
     stage!: Konva.Stage;
     layer!: Konva.Layer;
  
@@ -58,49 +56,34 @@ import {HotkeysService , Hotkey} from 'angular2-hotkeys';
       this.Selecting.initiate() 
         var inn=false
 
-        this.stage.on('mousedown', (e) => {
-        if(this.drawMode){
-            this.drawflag = true
-        }else{
-          if (e.target !==this.stage){
-             inn = true
-            return
-          }
-          this.Selecting.mouseDown(e , this.stage)
-        
+      this.stage.on('mousedown', (e) => {
+
+        if (e.target !==this.stage){
+         inn = true
+          return
         }
+        this.Selecting.mouseDown(e , this.stage)
+        
+        
       });
 
       this.stage.on('mousemove', (e) => {
-        if(this.drawMode){
-        }else{
-          
-          inn= false
-          
-          this.Selecting.mouseMove(e , this.stage)
+        inn= false    
+        this.Selecting.mouseMove(e , this.stage)
          
-        }        
+              
       
       });
 
       this.stage.on('mouseup', (e) => {
-        if(this.drawMode){
-        }else{
-          
-          this.Selecting.mouseUp(e , this.stage)
-          if(this.Selecting.selectedShapes.length !=0){
-           
-            if(!inn && this.Selecting.move && this.Selecting.tr.nodes().length != 0){
-              
-            }
-          }
-        } 
+
+        this.Selecting.mouseUp(e , this.stage)
+        
       });
 
       this.stage.on('click',  (e)=> {
-        if(e.evt.which == 1){
-          this.Selecting.click(e , this.stage)
-        }
+        this.Selecting.click(e , this.stage)
+        
       }); 
       
       
@@ -168,6 +151,8 @@ import {HotkeysService , Hotkey} from 'angular2-hotkeys';
       this.m++;
     }
       this.layer.add(shp)
+      this.b =shp
+      this.addSelection()
       this.layer.draw()
     
   }
