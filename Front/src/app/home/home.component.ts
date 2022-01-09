@@ -10,6 +10,7 @@ import {HotkeysService , Hotkey} from 'angular2-hotkeys';
 import Machine from './Machine';
 import Queue from './Queue';
 import Factory from './Factory';
+import Requests from './Request';
 
 @Component({
     selector: 'home',
@@ -23,6 +24,8 @@ import Factory from './Factory';
     b:any
     operations: any = new Operation
     Selecting: any = new Selecting
+    request: Requests = new Requests
+
     MQmap: Map<string,Factory> = new Map
 
     stage!: Konva.Stage;
@@ -199,12 +202,14 @@ import Factory from './Factory';
         this.MQmap.get(key)!.machineGroup.draggable(true)
      }
 
+
     }else{
       this.playMode = true
       document.getElementById('start')!.style.backgroundColor ="#777777";
       for(let key of this.MQmap.keys()) {
         this.MQmap.get(key)!.machineGroup.draggable(false)
      }
+     this.request.playRequest(this.MQmap)
 
 
     }
