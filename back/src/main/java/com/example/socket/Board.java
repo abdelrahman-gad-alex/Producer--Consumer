@@ -5,13 +5,10 @@ import java.util.*;
 public class Board
 {
     LinkedList<Machine> Machines = new LinkedList<Machine>();
-//<<<<<<< Updated upstream
+    CareTaker careTaker;
+    Originator originator;
     HashMap<String, Queue> Queues = new HashMap<String,Queue>();
     LinkedList<Product> Products = new LinkedList<Product>();
-//=======
-//    LinkedList<Queue> Queues = new LinkedList<Queue>();
-//    LinkedList<String> Products = new LinkedList<String>();
-//>>>>>>> Stashed changes
     Thread thread;
     int n;
     Queue first;
@@ -48,26 +45,30 @@ public class Board
     {
         Queue first = this.first;
         thread = new Thread(() -> {
-                for (int i = 0; i < n; i++)
-                {
-                    //snapshot should be implemented here
-                    Timer timer = new Timer();
-                    timer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            first.print();
-                            try
-                            {
-                                first.sendProduct();
-                            }
-                            catch (InterruptedException e)
-                            {
-                                e.printStackTrace();
-                            }
+            originator = new Originator();
+            careTaker = new CareTaker();
+            for (int i = 0; i < n; i++)
+            {
+                Product tempProduct = originator.makeProduct("p" + Integer.toString(i));
+                first.addProduct(tempProduct);
+                careTaker.addProduct(tempProduct);
+                Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        first.print();
+                        try
+                        {
+                            first.sendProduct();
                         }
-                    }, 10);
-                }
-            });
+                        catch (InterruptedException e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                }, tempProduct.getTimeRate());
+            }
+        });
         thread.start();
     }
 
