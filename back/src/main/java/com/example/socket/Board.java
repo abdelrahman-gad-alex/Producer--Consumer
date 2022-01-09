@@ -5,8 +5,13 @@ import java.util.*;
 public class Board
 {
     LinkedList<Machine> Machines = new LinkedList<Machine>();
-    HashMap<String, Queue> Queues = new HashMap<String,Queue>();
-    LinkedList<String> Products = new LinkedList<String>();
+//<<<<<<< Updated upstream
+//    HashMap<String, Queue> Queues = new HashMap<String,Queue>();
+//    LinkedList<String> Products = new LinkedList<String>();
+//=======
+    LinkedList<Queue> Queues = new LinkedList<Queue>();
+//    LinkedList<String> Products = new LinkedList<String>();
+//>>>>>>> Stashed changes
     Thread thread;
     int n;
     Queue first;
