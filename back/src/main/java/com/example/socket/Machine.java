@@ -16,12 +16,13 @@ public class Machine implements Observable, Runnable
     private boolean isEmpty = true;
     private int min = 1000;
     private int max = 9000;
-    public Machine(String id, Queue queueAfter)
+    public Machine(String id, Queue queueAfter,LinkedList<Queue>queueBefore)
     {
         Random r = new Random();
         time = r.nextInt((max - min) + 1) + min;
         this.id = id;
         this.queueAfter = queueAfter;
+        this.queuesBefore=queueBefore;
         this.addToQueues(this);
         this.isEmpty = true;
     }

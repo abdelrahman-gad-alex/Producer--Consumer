@@ -1,18 +1,44 @@
 package com.example.socket;
 
-import java.util.LinkedList;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class Board
 {
     LinkedList<Machine> Machines = new LinkedList<Machine>();
-    LinkedList<Queue> Queues = new LinkedList<Queue>();
+    HashMap<String, Queue> Queues = new HashMap<String,Queue>();
     LinkedList<String> Products = new LinkedList<String>();
     Thread thread;
     int n;
     Queue first;
+      void makequeue(HashMap<String,HashMap<String,String[]>>queuefront )
+      {
+          for (Map.Entry<String, HashMap<String, String[]>> set : queuefront.entrySet()) {
 
+              Queue q = new Queue(set.getKey());
+               if(set.getKey()=="Q0")
+               {
+                   first=q;
+               }
+              Queues.put(set.getKey(),q);
+          }
+      }
+      void makemachine(HashMap<String,HashMap<String,String[]>>machinefront)
+      {
+          HashMap<String,String[]> store;
+          String[] VAL1;
+          String[] VAL2;
+          LinkedList<Queue> w =new LinkedList<Queue>();
+          for (Map.Entry<String, HashMap<String, String[]>> set : machinefront.entrySet()) {
+             store =set.getValue();
+             VAL1=store.get("out");
+             VAL2=store.get("in");
+             for(int i=0;i< VAL2.length;i++)
+             {
+               w.push(Queues.get(VAL2[i]));
+             }
+             Machine m = new Machine(set.getKey(), Queues.get(VAL1[0]),w);
+          }
+      }
     void simulate()
     {
         Queue first = this.first;
