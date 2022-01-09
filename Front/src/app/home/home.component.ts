@@ -7,6 +7,9 @@ import Selecting from "./selecting"
 import { HttpClient } from '@angular/common/http';
 import { observable } from 'rxjs';
 import {HotkeysService , Hotkey} from 'angular2-hotkeys';
+import Machine from './Machine';
+import Queue from './Queue';
+import Factory from './Factory';
 
 @Component({
     selector: 'home',
@@ -20,13 +23,15 @@ import {HotkeysService , Hotkey} from 'angular2-hotkeys';
     b:any
     operations: any = new Operation
     Selecting: any = new Selecting
+    MQmap: Map<string,Factory> = new Map
 
     stage!: Konva.Stage;
     layer!: Konva.Layer;
 
     drawingArrow : boolean = false
-    shape1!: Konva.Shape
-    shape2!: Konva.Shape
+    arrowMode: boolean = false
+    shape1!: Konva.Group
+    shape2!: Konva.Group
 
     color: string = 'black'
    stroke:number=3
@@ -60,44 +65,56 @@ import {HotkeysService , Hotkey} from 'angular2-hotkeys';
 
       
       this.Selecting.initiate() 
-        var inn=false
+      var inn=false
 
       this.stage.on('mousedown', (e) => {
-
         if (e.target !==this.stage){
-         inn = true
-          return
-        }
-        this.Selecting.mouseDown(e , this.stage)
-        
-        
-      });
-
-      this.stage.on('mousemove', (e) => {
-        inn= false    
-        this.Selecting.mouseMove(e , this.stage)
+          inn = true
+         return
          
-              
-      
+       }
+        this.Selecting.mouseDown(e , this.stage)
+
+      });
+      this.stage.on('dragmove', (e) => {
+        inn= false
+        if(this.Selecting.selectedShapes.length !=0){
+          for(var group of this.Selecting.selectedShapes){
+            let f = this.MQmap.get(group.getAttr("id"))!
+            for(let i=0 ; i<f.arrows.length ; i++){
+              f.arrows[i].update()
+            }
+
+          }
+        }
+
       });
 
       this.stage.on('mouseup', (e) => {
-
         this.Selecting.mouseUp(e , this.stage)
-        
+
+
       });
 
       this.stage.on('click',  (e)=> {
-        this.Selecting.click(e , this.stage)
-        if(!this.drawingArrow){
-          this.shape1 = this.Selecting.selectedShapes[0]
-          this.drawingArrow = true
-        }else{
-          this.shape2 = this.Selecting.selectedShapes[0]
-          let arr = new Arrow(this.layer, this.shape1, this.shape2)
-          this.drawingArrow=false
+        this.Selecting.click(e , this.stage,this.layer)
+
+        if(this.arrowMode){
+          if(this.Selecting.selectedShapes.length !=0){
+            if(!this.drawingArrow){
+              this.shape1 = this.Selecting.selectedShapes[0]
+              console.log(this.shape1.getAbsolutePosition().x+","+this.shape1.getAbsolutePosition().y)
+    
+              this.drawingArrow = true
+            }else{
+              this.shape2 = this.Selecting.selectedShapes[0]
+              console.log(this.shape2.getAbsolutePosition().x+","+this.shape2.getAbsolutePosition().y)
+              let arr = new Arrow(this.layer, this.MQmap.get(this.shape1.getAttr("id"))! , this.MQmap.get(this.shape2.getAttr("id"))!)
+              this.drawingArrow=false
+            }
+          }
         }
-        
+
       }); 
       
       
@@ -110,75 +127,39 @@ import {HotkeysService , Hotkey} from 'angular2-hotkeys';
     {
 
       var shift = this.operations.checkForShift(this.layer , name)
-      var shp = new Konva.Group({        
-        x: 150+shift, 
-        y: 150+shift, 
-        width: 130,
-        height: 25,
-        rotation: 0, 
-        draggable: true,
-        name:"rect"
-      })
-      if (name=="rectangle"){
-      shp.add(new Konva.Rect({
-        
-        width: 75,
-        height: 75,
-        stroke: "rgb(0,0,0)",
-        strokeWidth: 3,
-        fill: 'lightblue',
-        name:"rect"
-
-    }));
-    shp.add(new Konva.Text({
-      x:15,
-      y:5,
-      text:"Q"+this.q,
-      fontFamily: 'Calibri',
-      fontSize: 30,
-      fontStyle:('bold'),
-
-      fill: '#000',
-      padding: 5,
-      align: 'center'
-    }));
-    this.q++;
-     }
-      else{
-      shp.add(new Konva.Circle({
-        
-        radius:75/2,
-        stroke: "rgb(0,0,0)",
-        strokeWidth: 3,
-        fill: 'red',
-        name:"rect"
-
-    }));
-      shp.add(new Konva.Text({
-        x:-25,
-        y:-20,
-        text:"M"+this.m,
-        fontSize: 30,
-        fontStyle:('bold'),
-        fontFamily: 'Calibri',
-        fill: '#000',
-        padding: 5,
-        align: 'center'
-      }));
-      this.m++;
-    }
-      this.layer.add(shp)
-      this.b =shp
-      this.addSelection()
-      this.layer.draw()
+      switch(name)  {
+        case "Machine":
+          var M=new Machine(this.layer,shift,this.m)
+          this.MQmap.set(M.ID,M)
+          this.m++;
+          break;  
+        case "Queue":
+          var Q=new Queue(this.layer,shift,this.q)
+          this.MQmap.set(Q.ID,Q)
+          this.q++;
+          break;
+      }
+      if(this.arrowMode){
+        this.arrowButton()
+      }
     
   }
-    addSelection(){
-      this.Selecting.selectedShapes = [this.b]
-      this.layer.add(this.Selecting.tr)
-      this.Selecting.tr.nodes([this.b])
-      this.layer.add(this.Selecting.selected)
+
+  arrowButton(){
+    if(this.arrowMode){
+      this.arrowMode=false
+      document.getElementById('arrow')!.style.backgroundColor ="rgb(255, 255, 255)";
+
+    }else{
+      this.arrowMode = true
+      document.getElementById('arrow')!.style.backgroundColor ="#777777";
+
     }
+    this.drawingArrow =false
+    this.Selecting.emptytr()
+
+
+  }
  
 
     clear()

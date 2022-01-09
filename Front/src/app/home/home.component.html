@@ -33,19 +33,19 @@
             </div>
          <div class="display">
              <div>
-                <button (click)='create("circle")' style="margin-top: 15px;" class="button" id="draw" >
+                <button (click)='create("Machine")' style="margin-top: 15px;" class="button" id="draw" >
                     <img id="fill" src="assets/photos/Machine.png"style=" margin-left: 10px;height: 62px;" class="creation">
                 <p style="margin-left: 10px;" >Machine</p>
 
                 </button>
            </div>
-           <div> <button (click)='create("rectangle")' style="margin-top: 15px;" class="button" id="draw" >
+           <div> <button (click)='create("Queue")' style="margin-top: 15px;" class="button" id="draw" >
             <img id="fill" src="assets/photos/queue.png"style=" margin-left: 10px;height: 62px;" class="creation">
             <p style="margin-left: 10px;" >Queue</p>
 
         </button>
         </div>
-        <div> <button  style="margin-top: 15px;" class="button" id="draw" >
+        <div> <button (click)='arrowButton()'  style="margin-top: 15px;" class="button" id="arrow" >
             <img id="fill" src="assets/photos/line.png"style=" margin-left: 10px;height: 62px;" class="creation">
             <p style="margin-left: 10px;" >Arrow</p>
 
