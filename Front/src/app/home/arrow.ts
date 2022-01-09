@@ -21,6 +21,9 @@ class Arrow{
            console.log("M4 rasem")
             return
         }
+        if(id1.charAt(0)=='m' && shape1.out.length>0 ){
+            return
+        }
         shape1.out.push(id2)
         shape2.inn.push(id1)
 
