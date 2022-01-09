@@ -16,15 +16,15 @@ public class Machine implements Observable, Runnable
     private boolean isEmpty = true;
     private int min = 1000;
     private int max = 9000;
+    Random random = new Random();
     public Machine(String id, Queue queueAfter, LinkedList<Queue> queueBefore)
     {
-        Random r = new Random();
-        time = r.nextInt((max - min) + 1) + min;
         this.id = id;
         this.queueAfter = queueAfter;
         this.queuesBefore = queueBefore;
         this.addToQueues(this);
         this.isEmpty = true;
+        time = this.random.nextInt((max - min) + 1) + min;
     }
     public void notifyAllObservers() throws InterruptedException
     {
@@ -32,6 +32,10 @@ public class Machine implements Observable, Runnable
             queue.update();
         }
         this.queueAfter.update();
+    }
+    public String getId()
+    {
+        return this.id;
     }
     public void addToQueues(Machine machine)
     {
@@ -100,9 +104,9 @@ public class Machine implements Observable, Runnable
         {
             this.notifyAllObservers();
         }
-        catch (InterruptedException var2)
+        catch (InterruptedException e)
         {
-            var2.printStackTrace();
+            e.printStackTrace();
         }
     }
 }
