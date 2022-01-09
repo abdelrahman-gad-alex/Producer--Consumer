@@ -121,8 +121,28 @@ import Factory from './Factory';
     }
 
     //for doing the event
-  
-    
+    Colormap: Map<number,string> = new Map
+    colorAssign(num:number){
+      for (let i=1 ;i<=num;i++)
+      this.Colormap.set(i,Konva.Util.getRandomColor())
+    }
+
+    coloring(id:number,Mid:string){
+      this.MQmap.get(Mid)!.update(this.Colormap.get(id)!)
+    }
+    colorReset(Mid:string){
+      this.MQmap.get(Mid)!.update("red")
+    }
+    queueInc(Qid:string){
+      this.MQmap.get(Qid)!.update("inc")
+    }
+    queueDec(Qid:string){
+      this.MQmap.get(Qid)!.update("dec")
+    }
+    queueset(x:number){
+      this.MQmap.get("q0")!.set(x)
+    }
+
     create(name:string)
     {
 

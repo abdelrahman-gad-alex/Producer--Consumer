@@ -9,7 +9,8 @@ export interface  Factory{
     inn: string[]
     out: string[]
     color: string 
-
+    update(x:string):void
+    set(x:number):void
 }
 export default Factory;
 

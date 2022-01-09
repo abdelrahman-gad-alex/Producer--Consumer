@@ -1,6 +1,7 @@
 import Konva from "Konva";
 import Arrow from "./arrow";
 import Factory from "./Factory" ;
+import Machine from "./Machine";
 class Queue implements Factory{
     layer: Konva.Layer
     arrows: Arrow[] = []
@@ -9,6 +10,7 @@ class Queue implements Factory{
     inn: string[] =[]
     out: string[]= []
     color = 'lightblue'
+    contain:number=0
 
     constructor(layer: Konva.Layer, shift:number, q:number){
         this.layer = layer  
@@ -46,6 +48,19 @@ class Queue implements Factory{
           name:"Queue"
 
         }));
+        shp.add(new Konva.Text({
+            x:20,
+            y:30,
+            text:this.contain.toString(),
+            fontFamily: 'Calibri',
+            fontSize: 30,
+            fontStyle:('bold'),
+            fill: '#000',
+            padding: 5,
+            align: 'center',
+            name:"Queue",
+            id:"contain"
+          }));
         shp.add(new Konva.Rect({
             x:0,
             y:75/2,
@@ -87,7 +102,24 @@ class Queue implements Factory{
      
     }
 
+    update(x:string): void {
+        if(x=="inc")
+            this.contain++
+        if(x=="dec")
+            this.contain--
+        var xx=this.machineGroup.findOne("#contain")
+        console.log("this.contain")
+        xx.setAttr("text",this.contain.toString())
+        this.layer.add(this.machineGroup)
+        this.layer.draw()
+    }
+    set(x:number):void{
+        this.contain=x
+        var xx=this.machineGroup.findOne("#contain")
+        xx.setAttr("text",this.contain.toString())  
+        this.layer.draw()
 
+    }
 
 }
 export default Queue;

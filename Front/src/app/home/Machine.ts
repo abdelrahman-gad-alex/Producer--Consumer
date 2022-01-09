@@ -32,7 +32,7 @@ class Machine implements Factory{
             strokeWidth: 3,
             fill: this.color,
             name:"Machine",
-    
+            id:"Cir"
         }));
           shp.add(new Konva.Text({
             x:-25,
@@ -78,7 +78,6 @@ class Machine implements Factory{
             name:"4"
 
         }))
-
           this.ID = "m"+m
           this.machineGroup = shp
           this.layer.add(this.machineGroup)
@@ -87,7 +86,15 @@ class Machine implements Factory{
      
     }
 
-
-
+    //fill:   "#"+(Math.floor(Math.random()*16777215).toString(16)),
+      //Konva.Util.getRandomColor()
+    update(color:string){
+      var x=this.machineGroup.findOne("#Cir")
+      x.setAttr("fill",color)
+      
+    }
+set(x: number): void {
+    
+}
 }
 export default Machine;
