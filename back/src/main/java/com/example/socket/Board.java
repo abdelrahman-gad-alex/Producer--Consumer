@@ -6,10 +6,10 @@ public class Board
 {
     LinkedList<Machine> Machines = new LinkedList<Machine>();
 //<<<<<<< Updated upstream
-//    HashMap<String, Queue> Queues = new HashMap<String,Queue>();
+    HashMap<String, Queue> Queues = new HashMap<String,Queue>();
 //    LinkedList<String> Products = new LinkedList<String>();
 //=======
-    LinkedList<Queue> Queues = new LinkedList<Queue>();
+//    LinkedList<Queue> Queues = new LinkedList<Queue>();
 //    LinkedList<String> Products = new LinkedList<String>();
 //>>>>>>> Stashed changes
     Thread thread;
