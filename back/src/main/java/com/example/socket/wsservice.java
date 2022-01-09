@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.converter.GsonMessageConverter;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+
 @Service
 public class wsservice {
     private SimpMessagingTemplate messagingTemplate;
@@ -14,11 +17,9 @@ public class wsservice {
         this.messagingTemplate=messagingTemplate;
         this.g= new GsonBuilder().create();
     }
-    public void notifymess(final HelloMessage message )
+    public void notifymess(final HashMap<String,String> send)
     {
-        GsonMessageConverter M  = new GsonMessageConverter(g);
-        messagingTemplate.setMessageConverter(M);
-        messagingTemplate.convertAndSend("/topic/greetings",message);
+        messagingTemplate.convertAndSend("/topic/greetings",send);
     }
     private Gson g;
 }

@@ -27,9 +27,9 @@ public class GreetingController {
 
     @GetMapping("/input")
      public void getmessag(@RequestParam HashMap<String,HashMap<String,String[]>> frontq,@RequestParam HashMap<String,HashMap<String,String[]>> frontm ,@RequestParam int products) throws InterruptedException {
-        t.send(0);
         B.makequeue(frontq);
         B.makemachine(frontm);
+        B.n=products;
     }
     trying t;
     public GreetingController (SimpMessagingTemplate messagingTemplate)

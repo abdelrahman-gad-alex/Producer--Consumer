@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+
 @Component
 public class trying {
     wsservice not;
@@ -13,14 +15,8 @@ public class trying {
         this.not= new wsservice(messagingTemplate);
 
     }
-    public void send ( int i ) throws InterruptedException {
+    public void send2 (HashMap<String,String>send ) throws InterruptedException {
         System.out.println("yes");
-        while (i<5)
-        {
-            i++;
-            Thread.sleep(6000);
-
-            not.notifymess(new HelloMessage("ahmed",i));
-        }
+            not.notifymess(send);
     }
 }

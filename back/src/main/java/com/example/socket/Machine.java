@@ -1,13 +1,12 @@
 package com.example.socket;
-import java.util.LinkedList;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class Machine implements Observable, Runnable
 {
 
     Thread thread;
+    HashMap<String,String> sent= new HashMap<String,String>();
+    trying tg;
     private Product currentProduct;
     private String id;
     private LinkedList<Queue> queuesBefore;
@@ -95,6 +94,16 @@ public class Machine implements Observable, Runnable
         this.isEmpty = true;
         this.queueAfter.addProduct(this.currentProduct);
         this.thread.join();
+        String in ;
+        String out;
+        String product;
+        out=getId();
+        product=currentProduct.getId();
+        in=currentProduct.getLastQueueIn();
+        sent.put("product",product);
+        sent.put("in",in);
+        sent.put("out",out);
+        tg.send2(sent);
         System.out.println(this.thread.isAlive());
         this.notifyAllObservers();
     }
