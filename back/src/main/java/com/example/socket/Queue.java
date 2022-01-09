@@ -6,11 +6,11 @@ public class Queue implements Observer
 {
     String id;
     private LinkedList<Machine> machines;
-    private LinkedList<String> products;
+    private LinkedList<Product> products;
     public Queue(String id)
     {
         machines = new LinkedList<Machine>();
-        products = new LinkedList<String>();
+        products = new LinkedList<Product>();
         this.id = id;
     }
     @Override
@@ -18,7 +18,7 @@ public class Queue implements Observer
     {
         sendProduct();
     }
-    public void setProducts(LinkedList<String> products)
+    public void setProducts(LinkedList<Product> products)
     {
         this.products = products;
     }
@@ -30,7 +30,7 @@ public class Queue implements Observer
     {
         this.id=id;
     }
-    public void addProduct(String product)
+    public void addProduct(Product product)
     {
         products.add(product);
     }
@@ -42,7 +42,7 @@ public class Queue implements Observer
     {
         return machines;
     }
-    public LinkedList<String> getProducts()
+    public LinkedList<Product> getProducts()
     {
         return products;
     }
@@ -68,7 +68,7 @@ public class Queue implements Observer
                 {
                     return;
                 }
-                String product = products.removeLast();
+                Product product = products.removeLast();
                 machine.setIsEmpty(false);
                 machine.setCurrentProduct(product);
             }

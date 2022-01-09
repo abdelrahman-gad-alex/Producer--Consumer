@@ -8,7 +8,7 @@ public class Machine implements Observable, Runnable
 {
 
     Thread thread;
-    private String currentProduct;
+    private Product currentProduct;
     private String id;
     private LinkedList<Queue> queuesBefore;
     private Queue queueAfter;
@@ -40,7 +40,7 @@ public class Machine implements Observable, Runnable
             q.addMachine(machine);
         }
     }
-    public String getCurrentProduct()
+    public Product getCurrentProduct()
     {
         return this.currentProduct;
     }
@@ -48,7 +48,7 @@ public class Machine implements Observable, Runnable
     {
         return this.queueAfter;
     }
-    public void setCurrentProduct(String currentProduct) throws InterruptedException
+    public void setCurrentProduct(Product currentProduct) throws InterruptedException
     {
         this.currentProduct = currentProduct;
         System.out.println(Thread.getAllStackTraces().keySet().size());
