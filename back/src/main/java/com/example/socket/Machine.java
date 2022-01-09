@@ -82,6 +82,7 @@ public class Machine implements Observable, Runnable
                 try
                 {
                     consume();
+
                 }
                 catch (InterruptedException e)
                 {

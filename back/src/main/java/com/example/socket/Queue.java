@@ -32,6 +32,7 @@ public class Queue implements Observer
     }
     public void addProduct(Product product)
     {
+        product.setLastQueueIn(this.id);
         products.add(product);
     }
     public void addMachine(Machine machine)
