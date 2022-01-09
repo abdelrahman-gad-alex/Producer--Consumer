@@ -33,6 +33,8 @@ import Factory from './Factory';
     shape1!: Konva.Group
     shape2!: Konva.Group
 
+    playMode: boolean = false
+
     color: string = 'black'
    stroke:number=3
    @ViewChild('menu ') menu!:ElementRef
@@ -182,14 +184,36 @@ import Factory from './Factory';
   }
  
 
-    clear()
-    {
-      this.layer.removeChildren()
-      this.q=0
-      this.m=0
-    }
+  clear()
+  {
+    this.layer.removeChildren()
+    this.q=0
+    this.m=0
+  }
 
-    constructor(public http: HttpClient,private _hotkeysService: HotkeysService){ 
+  play(){
+    if(this.playMode){
+      this.playMode=false
+      document.getElementById('start')!.style.backgroundColor ="rgb(255, 255, 255)";
+      for(let key of this.MQmap.keys()) {
+        this.MQmap.get(key)!.machineGroup.draggable(true)
+     }
+
+    }else{
+      this.playMode = true
+      document.getElementById('start')!.style.backgroundColor ="#777777";
+      for(let key of this.MQmap.keys()) {
+        this.MQmap.get(key)!.machineGroup.draggable(false)
+     }
+
+
+    }
+    this.Selecting.emptytr()
+
+  }
+
+
+  constructor(public http: HttpClient,private _hotkeysService: HotkeysService){ 
       this.q=0
       this.m=0
       this._hotkeysService.add(new Hotkey('r', (event: KeyboardEvent): boolean => {
@@ -201,5 +225,5 @@ import Factory from './Factory';
         return false; // Prevent bubbling
       }));
 
-    }
   }
+}

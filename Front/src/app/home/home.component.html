@@ -6,13 +6,13 @@
      <div class="section2">
         <div class="section3 display">
             <div>
-                <button  style="margin-top: 15px;" class="button">
+                <button (click)='play()' style="margin-top: 15px;" class="button" id="start">
                     <img id="fill" src="assets/photos/START.png"style=" margin-left: 10px;height: 62px;" class="creation">
                     <p style="margin-left: 10px;">Start</p>
                 </button>
             </div>
             <div >
-                <button (click)="queueset(50)" style="margin-top: 15px;" class="button">
+                <button  style="margin-top: 15px;" class="button" [disabled]="!playMode">
                     <img id="fill" src="assets/photos/Replay.png"style=" margin-left: 10px;height: 62px;" class="creation">
                     <p style="margin-left: 10px;" >Replay</p>
                 </button>
@@ -33,19 +33,19 @@
             </div>
          <div class="display">
              <div>
-                <button (click)='create("Machine")' style="margin-top: 15px;" class="button" id="draw" >
+                <button (click)='create("Machine")' style="margin-top: 15px;" class="button" id="draw" [disabled]="playMode">
                     <img id="fill" src="assets/photos/Machine.png"style=" margin-left: 10px;height: 62px;" class="creation">
                 <p style="margin-left: 10px;" >Machine</p>
 
                 </button>
            </div>
-           <div> <button (click)='create("Queue")' style="margin-top: 15px;" class="button" id="draw" >
+           <div> <button (click)='create("Queue")' style="margin-top: 15px;" class="button" id="draw" [disabled]="playMode">
             <img id="fill" src="assets/photos/queue.png"style=" margin-left: 10px;height: 62px;" class="creation">
             <p style="margin-left: 10px;" >Queue</p>
 
         </button>
         </div>
-        <div> <button (click)='arrowButton()'  style="margin-top: 15px;" class="button" id="arrow" >
+        <div> <button (click)='arrowButton()'  style="margin-top: 15px;" class="button" id="arrow" [disabled]="playMode">
             <img id="fill" src="assets/photos/line.png"style=" margin-left: 10px;height: 62px;" class="creation">
             <p style="margin-left: 10px;" >Arrow</p>
 
