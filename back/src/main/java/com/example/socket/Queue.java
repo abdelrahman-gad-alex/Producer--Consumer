@@ -1,7 +1,5 @@
 package com.example.socket;
-
 import java.util.LinkedList;
-
 public class Queue implements Observer
 {
     String id;
@@ -12,6 +10,7 @@ public class Queue implements Observer
         machines = new LinkedList<Machine>();
         products = new LinkedList<Product>();
         this.id = id;
+
     }
     @Override
     public void update() throws InterruptedException
@@ -63,7 +62,7 @@ public class Queue implements Observer
     {
         for (Machine machine : machines)
         {
-            System.out.println("Hiiiii");
+            //System.out.println("Hiiiii");
             if (machine.getIsEmpty())
             {
                 if (products.isEmpty())

@@ -18,6 +18,15 @@ public class Machine implements Observable, Runnable
     Random random = new Random();
     public Machine(String id, Queue queueAfter, LinkedList<Queue> queueBefore)
     {
+        System.out.println("id");
+        System.out.println(id);
+        System.out.println("after");
+        System.out.println(queueAfter.id);
+        for (int i = 0; i < queueBefore.size(); i++) {
+            System.out.println("qbefor");
+            System.out.print(queueBefore.get(i).id + " ");
+        }
+       // System.out.println(queueBefore);
         this.id = id;
         this.queueAfter = queueAfter;
         this.queuesBefore = queueBefore;
@@ -100,14 +109,18 @@ public class Machine implements Observable, Runnable
         out=getId();
         product= this.currentProduct.getId();
         in=this.currentProduct.getLastQueueIn();
-//        sent.put("product",product);
-//        sent.put("in",in);
-//        sent.put("out",out);
-//        System.out.println("machine" +this.id +this.currentProduct.getId());
-//        System.out.println(in);
-//        System.out.println(out);
-//        System.out.println(product);
-//        tg.send2(sent);
+       // System.out.println(out);
+       // System.out.println(product);
+        //System.out.println(in);
+       sent.put("product",product);
+        sent.put("in",in);
+        sent.put("out",out);
+        System.out.println("machine" +this.id +this.currentProduct.getId());
+       // for (Map.Entry<String,String> set : sent.entrySet()) {
+           //   System.out.println(set.getValue());
+              //System.out.println("warena");
+        //}
+      // this.tg.send2(sent);
         this.thread.join();
         System.out.println(this.thread.isAlive());
         this.notifyAllObservers();

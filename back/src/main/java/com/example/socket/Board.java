@@ -17,7 +17,7 @@ public class Board
           for (Map.Entry<String, HashMap<String, String[]>> set : queuefront.entrySet()) {
 
               Queue q = new Queue(set.getKey());
-              System.out.println(set.getKey());
+             // System.out.println(set.getKey());
                if(set.getKey().equals("q0"))
                {
                    System.out.println("a7a");
@@ -34,21 +34,23 @@ public class Board
           String[][] val3 = new String[0][];
           LinkedList<Queue> w =new LinkedList<Queue>();
           String[][] val4 = new String[0][];
+
           int j=0;
           for (Map.Entry<String, HashMap<String, String[]>> set : machinefront.entrySet()) {
              store =set.getValue();
-             VAL2=store.get("out");
-             VAL1=store.get("in");
+             VAL2=store.get("in");
+             VAL1=store.get("out");
 
-             System.out.println(store.get("in"));
-             System.out.println(Queues.get(VAL2));
-              System.out.println("YES");
+             //System.out.println(store.get("in"));
+             //System.out.println(Queues.get(VAL2));
+              //System.out.println("YES");
              for(int h=0;h< VAL2.length;h++)
              {
-                 System.out.println(VAL2[h]);
-                 w.push(Queues.get(VAL2[h]));
+                // System.out.println(VAL2[h]);
+                 w.push(Queues.get(VAL2[0]));
+                 Machine m = new Machine(set.getKey(), Queues.get(VAL1[0]), w);
              }
-             Machine m = new Machine(set.getKey(), Queues.get(VAL1), w);
+                w.pop();
           }
           simulate();
       }

@@ -28,7 +28,7 @@ class Requests{
             params:{ 
                 frontq:strq,
                 frontm:strm,
-                products:"25"
+                products:"3"
             },
             observe:'response'
           }).subscribe(response=>{
