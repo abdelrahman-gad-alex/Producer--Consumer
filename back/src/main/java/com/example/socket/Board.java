@@ -61,6 +61,7 @@ public class Board
             for (int i = 0; i < n; i++)
             {
                 Product tempProduct = originator.makeProduct("p" + Integer.toString(i));
+                System.out.println("Hiiiiiiiiiiii!!!!");
                 first.addProduct(tempProduct);
                 careTaker.addProduct(tempProduct);
                 Timer timer = new Timer();
