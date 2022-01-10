@@ -1,6 +1,11 @@
 package com.example.socket;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import netscape.javascript.JSObject;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -18,7 +23,8 @@ public class GreetingController {
     Gson g = new Gson();
     HashMap<String,HashMap<String,String[]>>Frontq;
     HashMap<String,HashMap<String,String[]>>Frontm;
-    ObjectMapper mapper = new ObjectMapper();
+
+    //OjectMapper mapper = new ObjectMapper();
     Board B =new Board();
     @MessageMapping("/hello")
     @SendTo("/topic/greetings")
@@ -26,11 +32,19 @@ public class GreetingController {
         Thread.sleep(9000); // simulated delay
         return new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getName()) + "!");
     }
-
     @GetMapping("/input")
-     public void getmessag(@RequestParam String frontq,@RequestParam String frontm ,@RequestParam String products) throws InterruptedException, IOException {
-        Frontq = mapper.readValue(frontq,HashMap.class);
-        Frontm=mapper.readValue(frontm,HashMap.class);
+     public void getmessag(@RequestParam String frontq,@RequestParam String frontm ,@RequestParam String products) throws InterruptedException, IOException, JSONException {
+
+       Frontq = new Gson().fromJson(
+                String.valueOf(frontq), new TypeToken<HashMap<String, Object>>() {}.getType()
+        );
+        Frontm = new Gson().fromJson(
+                String.valueOf(frontm), new TypeToken<HashMap<String, Object>>() {}.getType()
+        );
+        System.out.println(Frontq);
+        System.out.println(Frontm);
+        // Frontq = mapper.readValue(frontq,HashMap.class);
+       // Frontm=mapper.readValue(frontm,HashMap.class);
         B.makequeue(Frontq);
         B.makemachine(Frontm);
         B.n=Integer.parseInt(products);
@@ -40,5 +54,4 @@ public class GreetingController {
     {
         this.t= new trying(messagingTemplate);
     }
-
 }
