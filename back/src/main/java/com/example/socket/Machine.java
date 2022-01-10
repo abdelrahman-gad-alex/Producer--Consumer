@@ -93,7 +93,6 @@ public class Machine implements Observable, Runnable
     {
         this.isEmpty = true;
         this.queueAfter.addProduct(this.currentProduct);
-        this.thread.join();
         String in ;
         String out;
         String product;
@@ -103,7 +102,14 @@ public class Machine implements Observable, Runnable
         sent.put("product",product);
         sent.put("in",in);
         sent.put("out",out);
+        System.out.println("machine");
+        System.out.println(in);
+        System.out.println(out);
+        System.out.println(product);
         tg.send2(sent);
+        this.thread.join();
+
+
         System.out.println(this.thread.isAlive());
         this.notifyAllObservers();
     }

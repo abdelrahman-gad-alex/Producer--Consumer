@@ -17,8 +17,10 @@ public class Board
           for (Map.Entry<String, HashMap<String, String[]>> set : queuefront.entrySet()) {
 
               Queue q = new Queue(set.getKey());
-               if(set.getKey()=="q0")
+              System.out.println(set.getKey());
+               if(set.getKey().equals("q0"))
                {
+                   System.out.println("a7a");
                    first=q;
                }
               Queues.put(set.getKey(),q);
@@ -35,16 +37,20 @@ public class Board
           int j=0;
           for (Map.Entry<String, HashMap<String, String[]>> set : machinefront.entrySet()) {
              store =set.getValue();
-             val3[j]=store.get("out");
-             val4[j]=store.get("in");
-             for(int i=0;i< val3[j].length;i++)
-             {
-               w.push(Queues.get(val3[j][i]));
-             }
+             VAL2=store.get("out");
+             VAL1=store.get("in");
 
-             Machine m = new Machine(set.getKey(), Queues.get(val4[j][0]),w);
-              j++;
+             System.out.println(store.get("in"));
+             System.out.println(Queues.get(VAL2));
+              System.out.println("YES");
+             for(int h=0;h< VAL2.length;h++)
+             {
+                 System.out.println(VAL2[h]);
+                 w.push(Queues.get(VAL2[h]));
+             }
+             Machine m = new Machine(set.getKey(), Queues.get(VAL1), w);
           }
+          simulate();
       }
     void simulate()
     {
