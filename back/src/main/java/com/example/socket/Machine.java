@@ -14,7 +14,7 @@ public class Machine implements Observable, Runnable
     private int time;
     private boolean isEmpty = true;
     private int min = 1000;
-    private int max = 5000;
+    private int max = 2000;
     Random random = new Random();
     public Machine(String id, Queue queueAfter, LinkedList<Queue> queueBefore)
     {
@@ -90,7 +90,6 @@ public class Machine implements Observable, Runnable
                 try
                 {
                     consume();
-                    this.run();
                 }
                 catch (InterruptedException e)
                 {
