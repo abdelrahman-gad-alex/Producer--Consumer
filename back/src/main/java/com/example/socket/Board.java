@@ -17,7 +17,7 @@ public class Board
           for (Map.Entry<String, HashMap<String, String[]>> set : queuefront.entrySet()) {
 
               Queue q = new Queue(set.getKey());
-               if(set.getKey()=="Q0")
+               if(set.getKey()=="q0")
                {
                    first=q;
                }
