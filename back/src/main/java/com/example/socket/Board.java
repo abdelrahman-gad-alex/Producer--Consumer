@@ -29,16 +29,21 @@ public class Board
           HashMap<String,String[]> store;
           String[] VAL1;
           String[] VAL2;
+          String[][] val3 = new String[0][];
           LinkedList<Queue> w =new LinkedList<Queue>();
+          String[][] val4 = new String[0][];
+          int j=0;
           for (Map.Entry<String, HashMap<String, String[]>> set : machinefront.entrySet()) {
              store =set.getValue();
-             VAL1=store.get("out");
-             VAL2=store.get("in");
-             for(int i=0;i< VAL2.length;i++)
+             val3[j]=store.get("out");
+             val4[j]=store.get("in");
+             for(int i=0;i< val3[j].length;i++)
              {
-               w.push(Queues.get(VAL2[i]));
+               w.push(Queues.get(val3[j][i]));
              }
-             Machine m = new Machine(set.getKey(), Queues.get(VAL1[0]),w);
+
+             Machine m = new Machine(set.getKey(), Queues.get(val4[j][0]),w);
+              j++;
           }
       }
     void simulate()
