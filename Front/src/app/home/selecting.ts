@@ -28,10 +28,10 @@ class Selecting{
     mouseDown(e:any , stage: Konva.Stage){
 
         e.evt.preventDefault();
-        this.x1 = stage.getPointerPosition().x;
-        this.y1 = stage.getPointerPosition().y;
-        this.x2 = stage.getPointerPosition().x;
-        this.y2 = stage.getPointerPosition().y;
+        this.x1 = stage.getPointerPosition()?.x;
+        this.y1 = stage.getPointerPosition()?.y;
+        this.x2 = stage.getPointerPosition()?.x;
+        this.y2 = stage.getPointerPosition()?.y;
         this.selected.visible(true);
         this.selected.width(0);
         this.selected.height(0);
@@ -43,8 +43,8 @@ class Selecting{
             return;
           }
           e.evt.preventDefault();
-          this.x2 = stage.getPointerPosition().x
-          this.y2 = stage.getPointerPosition().y
+          this.x2 = stage.getPointerPosition()?.x;
+          this.y2 = stage.getPointerPosition()?.y;
           this.selected.setAttrs({
             x: Math.min(this.x1, this.x2),
             y: Math.min(this.y1, this.y2),
