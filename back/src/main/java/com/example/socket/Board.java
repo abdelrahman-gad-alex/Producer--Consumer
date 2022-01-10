@@ -1,7 +1,10 @@
 package com.example.socket;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
-
+@Component
 public class Board
 {
     LinkedList<Machine> Machines = new LinkedList<Machine>();
@@ -12,6 +15,12 @@ public class Board
     Thread thread;
     int n;
     Queue first;
+    trying ty;
+    @Autowired
+    public Board(trying messagingTemplate)
+    {
+        this.ty=messagingTemplate;
+    }
       void makequeue(HashMap<String,HashMap<String,String[]>>queuefront )
       {
           for (Map.Entry<String, HashMap<String, String[]>> set : queuefront.entrySet()) {
@@ -34,13 +43,11 @@ public class Board
           String[][] val3 = new String[0][];
           LinkedList<Queue> w =new LinkedList<Queue>();
           String[][] val4 = new String[0][];
-
           int j=0;
           for (Map.Entry<String, HashMap<String, String[]>> set : machinefront.entrySet()) {
              store =set.getValue();
              VAL2=store.get("in");
              VAL1=store.get("out");
-
              //System.out.println(store.get("in"));
              //System.out.println(Queues.get(VAL2));
               //System.out.println("YES");
@@ -48,7 +55,7 @@ public class Board
              {
                 // System.out.println(VAL2[h]);
                  w.push(Queues.get(VAL2[0]));
-                 Machine m = new Machine(set.getKey(), Queues.get(VAL1[0]), w);
+                 Machine m = new Machine(set.getKey(), Queues.get(VAL1[0]), w,ty);
              }
                 w.pop();
           }
@@ -86,5 +93,4 @@ public class Board
         });
         thread.start();
     }
-
 }

@@ -3,7 +3,6 @@ import java.util.*;
 
 public class Machine implements Observable, Runnable
 {
-
     Thread thread;
     HashMap<String,String> sent= new HashMap<String,String>();
     trying tg;
@@ -16,12 +15,13 @@ public class Machine implements Observable, Runnable
     private int min = 1000;
     private int max = 2000;
     Random random = new Random();
-    public Machine(String id, Queue queueAfter, LinkedList<Queue> queueBefore)
+    public Machine(String id, Queue queueAfter, LinkedList<Queue> queueBefore,trying tt)
     {
         System.out.println("id");
         System.out.println(id);
         System.out.println("after");
         System.out.println(queueAfter.id);
+        this.tg=tt;
         for (int i = 0; i < queueBefore.size(); i++) {
             System.out.println("qbefor");
             System.out.print(queueBefore.get(i).id + " ");
@@ -103,24 +103,24 @@ public class Machine implements Observable, Runnable
         this.isEmpty = true;
         System.out.println("machine  " +this.id +"   " +this.currentProduct.getId());
         this.queueAfter.addProduct(this.currentProduct);
-//        String in ;
-//        String out;
-//        String product;
-//        out=getId();
-//        product= this.currentProduct.getId();
-//        in=this.currentProduct.getLastQueueIn();
+        String in ;
+        String out;
+        String product;
+        out=getId();
+        product= this.currentProduct.getId();
+        in=this.currentProduct.getLastQueueIn();
        // System.out.println(out);
        // System.out.println(product);
-        //System.out.println(in);
-//       sent.put("product",product);
-//        sent.put("in",in);
-//        sent.put("out",out);
+        // System.out.println(in);
+       sent.put("product",product);
+        sent.put("in",in);
+        sent.put("out",out);
 //        System.out.println("machine" +this.id +this.currentProduct.getId());
-       // for (Map.Entry<String,String> set : sent.entrySet()) {
-           //   System.out.println(set.getValue());
-              //System.out.println("warena");
-        //}
-      // this.tg.send2(sent);
+        for (Map.Entry<String,String> set : sent.entrySet()) {
+              System.out.println(set.getValue());
+              System.out.println("warena");
+        }
+      this.tg.send2(sent);
         this.thread.join();
 //        System.out.println(this.thread.isAlive());
         this.notifyAllObservers();

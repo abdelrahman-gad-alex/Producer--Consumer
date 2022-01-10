@@ -1,13 +1,13 @@
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 import { AppComponent } from './app.component';
-
+import { homecomponent } from './home/home.component';
 export class WebSocketAPI {
     webSocketEndPoint: string = 'http://localhost:8080/topic';
     topic: string = "/topic/greetings";
     stompClient: any;
-    appComponent: AppComponent;
-    constructor(appComponent: AppComponent){
+    appComponent:homecomponent;
+    constructor(appComponent:homecomponent){
         this.appComponent = appComponent;
     }
     _connect() {
@@ -42,13 +42,14 @@ export class WebSocketAPI {
 	 * Send message to sever via web socket
 	 * @param {*} message 
 	 */
+    
     _send(message) {
         console.log("calling logout api via web socket");
         this.stompClient.send("/app/hello", {}, JSON.stringify(message));
     }
 
     onMessageReceived(message) {
-        console.log("Message Recieved from Server :: " + message);
-        this.appComponent.handleMessage(JSON.stringify(message.body));
+      
+        this.appComponent.handleMessage(message.body);
     }
 }

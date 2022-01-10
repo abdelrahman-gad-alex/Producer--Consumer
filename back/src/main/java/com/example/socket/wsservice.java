@@ -15,11 +15,10 @@ public class wsservice {
     public wsservice (SimpMessagingTemplate messagingTemplate)
     {
         this.messagingTemplate=messagingTemplate;
-        this.g= new GsonBuilder().create();
+
     }
     public void notifymess(final HashMap<String,String> send)
     {
         messagingTemplate.convertAndSend("/topic/greetings",send);
     }
-    private Gson g;
 }

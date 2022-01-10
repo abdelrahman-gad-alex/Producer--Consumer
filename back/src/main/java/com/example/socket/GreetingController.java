@@ -7,9 +7,11 @@ import netscape.javascript.JSObject;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,12 +23,18 @@ import java.util.HashMap;
 @CrossOrigin(origins = "*",allowedHeaders = "*")
 @RestController
 public class GreetingController {
-    Gson g = new Gson();
     HashMap<String,HashMap<String,String[]>>Frontq;
     HashMap<String,HashMap<String,String[]>>Frontm;
-
     //OjectMapper mapper = new ObjectMapper();
-    Board B =new Board();
+    trying t;
+    Board B;
+    @Autowired
+    public GreetingController (SimpMessagingTemplate messagingTemplate)
+    {
+        this.t= new trying(messagingTemplate);
+       B =new Board(t);
+    }
+
     @MessageMapping("/hello")
     @SendTo("/topic/greetings")
     public Greeting greeting(HelloMessage message) throws Exception {
@@ -78,18 +86,11 @@ public class GreetingController {
         }
 
         ///////////////////////////////
-
-
-
         System.out.println(Frontq.toString());
         System.out.println(Frontm.toString());
         B.makequeue(Frontq);
         B.makemachine(Frontm);
         B.n=Integer.parseInt(products);
     }
-    trying t;
-    public GreetingController (SimpMessagingTemplate messagingTemplate)
-    {
-        this.t= new trying(messagingTemplate);
-    }
+
 }

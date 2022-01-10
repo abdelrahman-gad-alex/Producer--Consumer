@@ -10,6 +10,8 @@ import Machine from './Machine';
 import Queue from './Queue';
 import Factory from './Factory';
 import Requests from './Request';
+import { WebSocketAPI } from '../WebSocketAPI';
+
 
 @Component({
     selector: 'home',
@@ -23,6 +25,7 @@ import Requests from './Request';
     b:any
     operations: any = new Operation
     Selecting: any = new Selecting
+    webSocketAPI: WebSocketAPI;
     MQmap: Map<string,Factory> = new Map
 
     stage!: Konva.Stage;
@@ -43,11 +46,10 @@ import Requests from './Request';
      console.log(e.pageY)
      e.preventDefault()
    }
- 
-
 
     ngOnInit(): void {  
-        
+      this.webSocketAPI = new WebSocketAPI(this);
+      
       this.stage = new Konva.Stage({  //create the stage
         container: 'container',
         width: window.innerWidth,
@@ -56,11 +58,8 @@ import Requests from './Request';
       
       this.layer = new Konva.Layer;
       this.stage.add(this.layer);
-
-      
       this.Selecting.initiate() 
       var inn=false
-
       this.stage.on('mousedown', (e) => {
         if (e.target !==this.stage){
           inn = true
@@ -113,7 +112,24 @@ import Requests from './Request';
       
       
     }
+    connect(){
+      this.webSocketAPI._connect();
+    }
 
+    disconnect(){
+      this.webSocketAPI._disconnect();
+    }
+    /*
+    sendMessage(){
+      this.webSocketAPI._send(this.name);
+    }
+    */
+    rcievemap: Map<string,string> = new Map
+    handleMessage(message){
+      
+      this.rcievemap=message;
+      console.log(this.rcievemap)
+    }
     //for doing the event
     Colormap: Map<number,string> = new Map
     colorAssign(num:number){
