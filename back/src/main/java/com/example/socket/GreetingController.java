@@ -36,15 +36,25 @@ public class GreetingController {
      public void getmessag(@RequestParam String frontq,@RequestParam String frontm ,@RequestParam String products) throws InterruptedException, IOException, JSONException {
 
        Frontq = new Gson().fromJson(
-                String.valueOf(frontq), new TypeToken<HashMap<String, Object>>() {}.getType()
+                String.valueOf(frontq), new TypeToken<HashMap<String, String>>() {}.getType()
         );
         Frontm = new Gson().fromJson(
-                String.valueOf(frontm), new TypeToken<HashMap<String, Object>>() {}.getType()
+                String.valueOf(frontm), new TypeToken<HashMap<String, String>>() {}.getType()
         );
         System.out.println(Frontq);
         System.out.println(Frontm);
-        // Frontq = mapper.readValue(frontq,HashMap.class);
-       // Frontm=mapper.readValue(frontm,HashMap.class);
+        for(String i:Frontq.keySet())
+        {
+            Frontq.put(i, new Gson().fromJson(
+                    String.valueOf(Frontq.get(i)), new TypeToken<HashMap<String, String[]>>() {}.getType()
+            ));
+        }
+        for(String i:Frontm.keySet())
+        {
+            Frontq.put(i, new Gson().fromJson(
+                    String.valueOf(Frontm.get(i)), new TypeToken<HashMap<String,String[]>>() {}.getType()
+            ));
+        }
         B.makequeue(Frontq);
         B.makemachine(Frontm);
         B.n=Integer.parseInt(products);
