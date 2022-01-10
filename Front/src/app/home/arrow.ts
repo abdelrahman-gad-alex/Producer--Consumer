@@ -17,7 +17,7 @@ class Arrow{
         console.log(id1.charAt(0) == id2.charAt(0))
         console.log(shape1.inn.find(x=>x==id2))
 
-        if(id1.charAt(0) == id2.charAt(0) || shape1.out.length>=2 || shape2.inn.length>=2 || shape1.inn.find(x=>x==id2)!=undefined ||shape1.out.find(x=>x==id2) !=undefined ){
+        if(id1.charAt(0) == id2.charAt(0) || shape1.inn.find(x=>x==id2)!=undefined ||shape1.out.find(x=>x==id2) !=undefined ){
            console.log("M4 rasem")
             return
         }

@@ -6,7 +6,6 @@ import Arrow from "./arrow";
 import Selecting from "./selecting"
 import { HttpClient } from '@angular/common/http';
 import { observable } from 'rxjs';
-import {HotkeysService , Hotkey} from 'angular2-hotkeys';
 import Machine from './Machine';
 import Queue from './Queue';
 import Factory from './Factory';
@@ -24,8 +23,6 @@ import Requests from './Request';
     b:any
     operations: any = new Operation
     Selecting: any = new Selecting
-    request: Requests = new Requests
-
     MQmap: Map<string,Factory> = new Map
 
     stage!: Konva.Stage;
@@ -40,21 +37,13 @@ import Requests from './Request';
 
     color: string = 'black'
    stroke:number=3
-   @ViewChild('menu ') menu!:ElementRef
    contextMenu(e:any)
    {
      console.log(e.pageX)
      console.log(e.pageY)
      e.preventDefault()
-     this.menu.nativeElement.style.display="block"
-     this.menu.nativeElement.style.top=e.pageY+"px"
-     this.menu.nativeElement.style.left=e.pageX+"px"
    }
-   disappear()
-   {
-     this.menu.nativeElement.style.display="none"
-   }
-   
+ 
 
 
     ngOnInit(): void {  
@@ -194,6 +183,7 @@ import Requests from './Request';
     this.m=0
   }
 
+  request=new Requests(this.http)
   play(){
     if(this.playMode){
       this.playMode=false
@@ -201,7 +191,6 @@ import Requests from './Request';
       for(let key of this.MQmap.keys()) {
         this.MQmap.get(key)!.machineGroup.draggable(true)
      }
-
 
     }else{
       this.playMode = true
@@ -211,24 +200,15 @@ import Requests from './Request';
      }
      this.request.playRequest(this.MQmap)
 
-
     }
     this.Selecting.emptytr()
 
   }
 
 
-  constructor(public http: HttpClient,private _hotkeysService: HotkeysService){ 
+  constructor(public http: HttpClient){ 
       this.q=0
       this.m=0
-      this._hotkeysService.add(new Hotkey('r', (event: KeyboardEvent): boolean => {
-        this.create("rectangle");
-        return false; // Prevent bubbling
-      }));
-      this._hotkeysService.add(new Hotkey('c', (event: KeyboardEvent): boolean => {
-        this.create("circle");
-        return false; // Prevent bubbling
-      }));
 
   }
 }

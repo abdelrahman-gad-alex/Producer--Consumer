@@ -1,32 +1,23 @@
-import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-;
+import { NgModule } from '@angular/core';
+import { homecomponent } from './home/home.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { homecomponent } from './home/home.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ColorPickerModule } from 'ngx-color-picker';
+import { FormsModule } from '@angular/forms'
 import {HttpClient, HttpClientModule} from '@angular/common/http';
-import {HotkeyModule} from 'angular2-hotkeys';
+
 @NgModule({
   declarations: [
     AppComponent,
     homecomponent
-  
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
-    ColorPickerModule,
+    FormsModule,
     HttpClientModule,
-    HotkeyModule.forRoot()
-    
-    
   ],
-  providers: [
-    HttpClient
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
