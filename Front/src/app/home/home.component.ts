@@ -6,9 +6,11 @@ import Arrow from "./arrow";
 import Selecting from "./selecting"
 import { HttpClient } from '@angular/common/http';
 import { observable } from 'rxjs';
+import {HotkeysService , Hotkey} from 'angular2-hotkeys';
 import Machine from './Machine';
 import Queue from './Queue';
 import Factory from './Factory';
+import Requests from './Request';
 
 @Component({
     selector: 'home',
@@ -22,6 +24,8 @@ import Factory from './Factory';
     b:any
     operations: any = new Operation
     Selecting: any = new Selecting
+    request: Requests = new Requests
+
     MQmap: Map<string,Factory> = new Map
 
     stage!: Konva.Stage;
@@ -36,13 +40,21 @@ import Factory from './Factory';
 
     color: string = 'black'
    stroke:number=3
+   @ViewChild('menu ') menu!:ElementRef
    contextMenu(e:any)
    {
      console.log(e.pageX)
      console.log(e.pageY)
      e.preventDefault()
+     this.menu.nativeElement.style.display="block"
+     this.menu.nativeElement.style.top=e.pageY+"px"
+     this.menu.nativeElement.style.left=e.pageX+"px"
    }
- 
+   disappear()
+   {
+     this.menu.nativeElement.style.display="none"
+   }
+   
 
 
     ngOnInit(): void {  
@@ -190,12 +202,14 @@ import Factory from './Factory';
         this.MQmap.get(key)!.machineGroup.draggable(true)
      }
 
+
     }else{
       this.playMode = true
       document.getElementById('start')!.style.backgroundColor ="#777777";
       for(let key of this.MQmap.keys()) {
         this.MQmap.get(key)!.machineGroup.draggable(false)
      }
+     this.request.playRequest(this.MQmap)
 
 
     }
@@ -204,9 +218,17 @@ import Factory from './Factory';
   }
 
 
-  constructor(){ 
+  constructor(public http: HttpClient,private _hotkeysService: HotkeysService){ 
       this.q=0
       this.m=0
+      this._hotkeysService.add(new Hotkey('r', (event: KeyboardEvent): boolean => {
+        this.create("rectangle");
+        return false; // Prevent bubbling
+      }));
+      this._hotkeysService.add(new Hotkey('c', (event: KeyboardEvent): boolean => {
+        this.create("circle");
+        return false; // Prevent bubbling
+      }));
 
   }
 }
