@@ -67,6 +67,7 @@ public class Queue implements Observer
             {
                 if (products.isEmpty())
                 {
+                    System.out.println("{{{{{{{");
                     return;
                 }
                 Product product = products.removeLast();

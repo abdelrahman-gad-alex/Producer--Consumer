@@ -90,6 +90,7 @@ public class Machine implements Observable, Runnable
                 try
                 {
                     consume();
+                    this.run();
                 }
                 catch (InterruptedException e)
                 {
