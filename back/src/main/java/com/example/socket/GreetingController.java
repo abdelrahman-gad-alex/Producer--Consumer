@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import netscape.javascript.JSObject;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -34,27 +35,54 @@ public class GreetingController {
     }
     @GetMapping("/input")
      public void getmessag(@RequestParam String frontq,@RequestParam String frontm ,@RequestParam String products) throws InterruptedException, IOException, JSONException {
+        Frontq=new HashMap<String, HashMap<String, String[]>>();
+        Frontm=new HashMap<String, HashMap<String, String[]>>();
+        JSONObject jazq=new JSONObject(frontq);
+        JSONObject jazm=new JSONObject(frontm);
+        JSONArray keyq = jazq.names ();
+        JSONArray keym = jazm.names ();
+        for (int i = 0; i < keyq.length (); ++i) {
+            String idQ = keyq.getString (i);
+            String valueq = jazq.getString (idQ);
+            JSONObject item=new JSONObject(valueq);
+            JSONArray itemKeys = item.names ();
+            HashMap<String,String[]> itemhash=new HashMap<String,String[]>();
+            for (int j = 0; j < itemKeys.length (); ++j) {
+                String sss = itemKeys.getString (j);
+                JSONArray sssv= item.getJSONArray(sss);
+                String[] array = new String[sssv.length()];
+                for (int k = 0; k < sssv.length(); k++) {
+                    array[k] = (String)sssv.get(k);
+                }
+                itemhash.put(sss,array);
+            }
+            Frontq.put(idQ,itemhash);
+        }
 
-       Frontq = new Gson().fromJson(
-                String.valueOf(frontq), new TypeToken<HashMap<String, String>>() {}.getType()
-        );
-        Frontm = new Gson().fromJson(
-                String.valueOf(frontm), new TypeToken<HashMap<String, String>>() {}.getType()
-        );
-        System.out.println(Frontq);
-        System.out.println(Frontm);
-        for(String i:Frontq.keySet())
-        {
-            Frontq.put(i, new Gson().fromJson(
-                    String.valueOf(Frontq.get(i)), new TypeToken<HashMap<String, String[]>>() {}.getType()
-            ));
+        for (int i = 0; i < keym.length (); i++) {
+            String idM = keym.getString (i);
+            String valueM = jazm.getString (idM);
+            JSONObject item=new JSONObject(valueM);
+            JSONArray itemKeys = item.names ();
+            HashMap<String,String[]> itemhash=new HashMap<String,String[]>();
+            for (int j = 0; j < itemKeys.length (); j++) {
+                String sss = itemKeys.getString (j);
+                JSONArray sssv= item.getJSONArray(sss);
+                String[] array = new String[sssv.length()];
+                for (int k = 0; k < sssv.length(); k++) {
+                    array[k] = (String)sssv.get(k);
+                }
+                itemhash.put(sss,array);
+            }
+            Frontm.put(idM,itemhash);
         }
-        for(String i:Frontm.keySet())
-        {
-            Frontq.put(i, new Gson().fromJson(
-                    String.valueOf(Frontm.get(i)), new TypeToken<HashMap<String,String[]>>() {}.getType()
-            ));
-        }
+
+        ///////////////////////////////
+
+
+
+        System.out.println(Frontq.toString());
+        System.out.println(Frontm.toString());
         B.makequeue(Frontq);
         B.makemachine(Frontm);
         B.n=Integer.parseInt(products);
