@@ -92,24 +92,23 @@ public class Machine implements Observable, Runnable
     public void consume() throws InterruptedException
     {
         this.isEmpty = true;
+        System.out.println("machine" +this.id +this.currentProduct.getId());
         this.queueAfter.addProduct(this.currentProduct);
         String in ;
         String out;
         String product;
         out=getId();
-        product=currentProduct.getId();
-        in=currentProduct.getLastQueueIn();
-        sent.put("product",product);
-        sent.put("in",in);
-        sent.put("out",out);
-        System.out.println("machine");
-        System.out.println(in);
-        System.out.println(out);
-        System.out.println(product);
-        tg.send2(sent);
+        product= this.currentProduct.getId();
+        in=this.currentProduct.getLastQueueIn();
+//        sent.put("product",product);
+//        sent.put("in",in);
+//        sent.put("out",out);
+//        System.out.println("machine" +this.id +this.currentProduct.getId());
+//        System.out.println(in);
+//        System.out.println(out);
+//        System.out.println(product);
+//        tg.send2(sent);
         this.thread.join();
-
-
         System.out.println(this.thread.isAlive());
         this.notifyAllObservers();
     }

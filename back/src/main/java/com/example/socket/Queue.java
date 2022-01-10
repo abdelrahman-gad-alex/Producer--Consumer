@@ -63,6 +63,7 @@ public class Queue implements Observer
     {
         for (Machine machine : machines)
         {
+            System.out.println("Hiiiii");
             if (machine.getIsEmpty())
             {
                 if (products.isEmpty())
