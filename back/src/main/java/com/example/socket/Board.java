@@ -62,7 +62,7 @@ public class Board
             careTaker = new CareTaker();
             for (int i = 0; i < n; i++)
             {
-                Product tempProduct = originator.makeProduct("p" + Integer.toString(i));
+                Product tempProduct = originator.makeProduct("p" + Integer.toString(i * 2));
                 System.out.println("Hiiiiiiiiiiii!!!!");
                 first.addProduct(tempProduct);
                 careTaker.addProduct(tempProduct);
@@ -70,7 +70,7 @@ public class Board
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        first.print();
+//                        first.print();
                         try
                         {
                             first.sendProduct();
@@ -82,6 +82,7 @@ public class Board
                     }
                 }, tempProduct.getTimeRate());
             }
+            System.out.println("END");
         });
         thread.start();
     }
