@@ -14,7 +14,7 @@ public class Machine implements Observable, Runnable
     private int time;
     private boolean isEmpty = true;
     private int min = 1000;
-    private int max = 9000;
+    private int max = 5000;
     Random random = new Random();
     public Machine(String id, Queue queueAfter, LinkedList<Queue> queueBefore)
     {
@@ -63,10 +63,10 @@ public class Machine implements Observable, Runnable
     public void setCurrentProduct(Product currentProduct) throws InterruptedException
     {
         this.currentProduct = currentProduct;
-        System.out.println(Thread.getAllStackTraces().keySet().size());
+//        System.out.println(Thread.getAllStackTraces().keySet().size());
         this.thread = new Thread(this, "Thread " + this.id);
         this.thread.start();
-        System.out.println(Thread.getAllStackTraces().keySet().size());
+//        System.out.println(Thread.getAllStackTraces().keySet().size());
         this.produce();
     }
 //        public LinkedList<Queue> getQueues() {
@@ -101,28 +101,28 @@ public class Machine implements Observable, Runnable
     public void consume() throws InterruptedException
     {
         this.isEmpty = true;
-        System.out.println("machine" +this.id +this.currentProduct.getId());
+        System.out.println("machine  " +this.id +"   " +this.currentProduct.getId());
         this.queueAfter.addProduct(this.currentProduct);
-        String in ;
-        String out;
-        String product;
-        out=getId();
-        product= this.currentProduct.getId();
-        in=this.currentProduct.getLastQueueIn();
+//        String in ;
+//        String out;
+//        String product;
+//        out=getId();
+//        product= this.currentProduct.getId();
+//        in=this.currentProduct.getLastQueueIn();
        // System.out.println(out);
        // System.out.println(product);
         //System.out.println(in);
-       sent.put("product",product);
-        sent.put("in",in);
-        sent.put("out",out);
-        System.out.println("machine" +this.id +this.currentProduct.getId());
+//       sent.put("product",product);
+//        sent.put("in",in);
+//        sent.put("out",out);
+//        System.out.println("machine" +this.id +this.currentProduct.getId());
        // for (Map.Entry<String,String> set : sent.entrySet()) {
            //   System.out.println(set.getValue());
               //System.out.println("warena");
         //}
       // this.tg.send2(sent);
         this.thread.join();
-        System.out.println(this.thread.isAlive());
+//        System.out.println(this.thread.isAlive());
         this.notifyAllObservers();
     }
     public void run()
