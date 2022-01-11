@@ -15,35 +15,43 @@ public class Machine implements Observable, Runnable
     private int min = 1000;
     private int max = 2000;
     Random random = new Random();
-    public Machine(String id, Queue queueAfter, LinkedList<Queue> queueBefore,trying tt)
+    public Machine(String id, Queue queueAfter, trying tt)
     {
-        System.out.println("id");
-        System.out.println(id);
-        System.out.println("after");
-        System.out.println(queueAfter.id);
+//        System.out.println("id");
+//        System.out.println(id);
+//        System.out.println("after");
+//        System.out.println(queueAfter.id);
         this.tg=tt;
-        for (int i = 0; i < queueBefore.size(); i++) {
-            System.out.println("qbefor");
-            System.out.print(queueBefore.get(i).id + " ");
-        }
+//        System.out.println("qbefor");
+//        for (int i = 0; i < queueBefore.size(); i++) {
+////            System.out.println("qbefor");
+////            System.out.print(queueBefore.get(i).id + " ");
+//        }
        // System.out.println(queueBefore);
         this.id = id;
         this.queueAfter = queueAfter;
-        this.queuesBefore = queueBefore;
-        this.addToQueues(this);
+//        this.queuesBefore = queueBefore;
         this.isEmpty = true;
         time = this.random.nextInt((max - min) + 1) + min;
+//        this.addToQueues(this);
     }
     public void notifyAllObservers() throws InterruptedException
     {
+        System.out.println("kjkkkkkkk   " + this.queuesBefore.get(0));
         for (Queue queue : this.queuesBefore) {
-            queue.update();
+            System.out.println("oooooo " + queue.getId());
+//            queue.update();
         }
+//        System.out.println("oooooo " + queueAfter.getId());
         this.queueAfter.update();
     }
     public String getId()
     {
         return this.id;
+    }
+    public void addQueueBefore(Queue q)
+    {
+        this.queuesBefore.add(q);
     }
     public void addToQueues(Machine machine)
     {
@@ -101,7 +109,7 @@ public class Machine implements Observable, Runnable
     public void consume() throws InterruptedException
     {
         this.isEmpty = true;
-        System.out.println("machine  " +this.id +"   " +this.currentProduct.getId());
+//        System.out.println("machine  " +this.id +"   " +this.currentProduct.getId());
         this.queueAfter.addProduct(this.currentProduct);
         String in ;
         String out;
@@ -109,6 +117,7 @@ public class Machine implements Observable, Runnable
         out=getId();
         product= this.currentProduct.getId();
         in=this.currentProduct.getLastQueueIn();
+        this.notifyAllObservers();
        // System.out.println(out);
        // System.out.println(product);
         // System.out.println(in);
@@ -117,13 +126,13 @@ public class Machine implements Observable, Runnable
         sent.put("out",out);
 //        System.out.println("machine" +this.id +this.currentProduct.getId());
         for (Map.Entry<String,String> set : sent.entrySet()) {
-              System.out.println(set.getValue());
-              System.out.println("warena");
+//              System.out.println(set.getValue());
+//              System.out.println("warena");
         }
       this.tg.send2(sent);
-        this.thread.join();
+//        this.thread.join();
 //        System.out.println(this.thread.isAlive());
-        this.notifyAllObservers();
+//        this.notifyAllObservers();
     }
     public void run()
     {

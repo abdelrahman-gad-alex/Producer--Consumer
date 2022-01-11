@@ -69,18 +69,24 @@ public class Board
             careTaker = new CareTaker();
             for (int i = 0; i < n; i++)
             {
-                Product tempProduct = originator.makeProduct("p" + Integer.toString(i * 2));
-                System.out.println("Hiiiiiiiiiiii!!!!");
-                first.addProduct(tempProduct);
-                careTaker.addProduct(tempProduct);
+                Product tempProduct = originator.makeProduct("p" + Integer.toString(i ));
+//                System.out.println("Hiiiiiiiiiiii!!!!");
                 Timer timer = new Timer();
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
 //                        first.print();
+                        first.addProduct(tempProduct);
+                        careTaker.addProduct(tempProduct);
                         try
                         {
-                            first.sendProduct();
+                            first.addProduct(tempProduct);
+                            careTaker.addProduct(tempProduct);
+//                            if(tempProduct.getId().equals("p2"))
+//                            {
+                                first.sendProduct();
+//                            }
+//                            first.sendProduct();
                         }
                         catch (InterruptedException e)
                         {
