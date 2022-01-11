@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 class Requests{
 
-    playRequest(MQmap: Map<string,Factory>){
+    playRequest(MQmap: Map<string,Factory>,prod:number){
         let q = {}
         let m = {}
         for(let key of MQmap.keys()) {
@@ -28,7 +28,7 @@ class Requests{
             params:{ 
                 frontq:strq,
                 frontm:strm,
-                products:"3"
+                products:prod.toString()
             },
             observe:'response'
           }).subscribe(response=>{

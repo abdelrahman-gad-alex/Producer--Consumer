@@ -23,6 +23,8 @@ import { WebSocketAPI } from '../WebSocketAPI';
     m:any
     q:any
     b:any
+    lastQ:any
+    products=NaN
     operations: any = new Operation
     Selecting: any = new Selecting
     webSocketAPI: WebSocketAPI;
@@ -114,6 +116,7 @@ import { WebSocketAPI } from '../WebSocketAPI';
     }
     connect(){
       this.webSocketAPI._connect();
+
     }
 
     disconnect(){
@@ -124,19 +127,40 @@ import { WebSocketAPI } from '../WebSocketAPI';
       this.webSocketAPI._send(this.name);
     }
     */
-    rcievemap: Map<string,string> = new Map
     handleMessage(message){
-      this.rcievemap=message;
-    }
-    //for doing the event
-    Colormap: Map<number,string> = new Map
-    colorAssign(num:number){
-      for (let i=1 ;i<=num;i++)
-      this.Colormap.set(i,Konva.Util.getRandomColor())
+      var x=JSON.parse(message)
+      var P=x.product
+      var IN=x.in
+      var OUT=x.out
+      if (IN[0]=='m'){
+        this.coloring(P,IN)
+        this.queueDec(OUT)
+      }
+      else if (IN=="q0"){
+        this.queueInc(IN)
+      }
+      else{
+        this.colorReset(OUT)
+        this.queueInc(IN)
+        if (this.lastQ.ID==IN&&this.lastQ.contain==this.products){
+          this.play()
+          
+        }
+      }
     }
 
-    coloring(id:number,Mid:string){
-      this.MQmap.get(Mid)!.update(this.Colormap.get(id)!)
+    //for doing the event
+    Colormap: Map<string,string> = new Map
+    colorAssign(num:number){
+      for (let i=0 ;i<num;i++){
+      var x="p"+i
+      this.Colormap.set(x,Konva.Util.getRandomColor())
+      }
+    }
+
+    coloring(Pid:string,Mid:string){
+      this.MQmap.get(Mid)!.update(this.Colormap.get(Pid)!)
+      console.log(this.Colormap.get(Pid))
     }
     colorReset(Mid:string){
       this.MQmap.get(Mid)!.update("red")
@@ -146,9 +170,6 @@ import { WebSocketAPI } from '../WebSocketAPI';
     }
     queueDec(Qid:string){
       this.MQmap.get(Qid)!.update("dec")
-    }
-    queueset(x:number){
-      this.MQmap.get("q0")!.set(x)
     }
 
     create(name:string)
@@ -165,6 +186,7 @@ import { WebSocketAPI } from '../WebSocketAPI';
           var Q=new Queue(this.layer,shift,this.q)
           this.MQmap.set(Q.ID,Q)
           this.q++;
+          this.lastQ=Q
           break;
       }
       if(this.arrowMode){
@@ -208,7 +230,9 @@ import { WebSocketAPI } from '../WebSocketAPI';
 
   }
  replay()
- {
+ {      
+  this.lastQ.set(0)
+  this.connect()
   this.http.get('http://localhost:8080/replay',{
     responseType:'text',
     params:{ 
@@ -221,24 +245,41 @@ import { WebSocketAPI } from '../WebSocketAPI';
  }
   request=new Requests(this.http)
   play(){
-    if(this.playMode){
-      this.playMode=false
-      document.getElementById('start')!.style.backgroundColor ="rgb(255, 255, 255)";
-      for(let key of this.MQmap.keys()) {
-        this.MQmap.get(key)!.machineGroup.draggable(true)
-     }
-
-    }else{
-      this.playMode = true
-      document.getElementById('start')!.style.backgroundColor ="#777777";
-      for(let key of this.MQmap.keys()) {
-        this.MQmap.get(key)!.machineGroup.draggable(false)
-     }
-     this.request.playRequest(this.MQmap)
+    if(!this.products){
+      console.log(this.products)
+      alert("Please enter the number of products")  
+      return
+    }else if(!this.MQmap.has("q0")||!this.MQmap.has("q1")||!this.MQmap.has("m0")){
+      alert("Please insert Machines and Queus")  
 
     }
-    this.Selecting.emptytr()
+    
+    
+    else{
+      if(this.playMode){
+        this.playMode=false
+        document.getElementById('start')!.style.backgroundColor ="rgb(255, 255, 255)";
+        for(let key of this.MQmap.keys()) {
+          this.MQmap.get(key)!.machineGroup.draggable(true)
+          this.disconnect()
+          
+      }
 
+      }else{
+        this.playMode = true
+        document.getElementById('start')!.style.backgroundColor ="#777777";
+        for(let key of this.MQmap.keys()) {
+          this.MQmap.get(key)!.machineGroup.draggable(false)
+      }
+      console.log(this.products)
+      this.colorAssign(this.products)
+      this.lastQ.set(0)
+      this.layer.draw()
+      this.request.playRequest(this.MQmap,this.products)
+      this.connect()
+    }
+      this.Selecting.emptytr()
+    }
   }
 
 

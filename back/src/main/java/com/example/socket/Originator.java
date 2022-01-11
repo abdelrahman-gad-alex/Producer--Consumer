@@ -4,8 +4,8 @@ import java.util.Random;
 
 public class Originator
 {
-    private int min = 3000;
-    private int max = 15000;
+    private int min = 2000;
+    private int max = 5000;
     private Random random = new Random();
     private int timeRate;
     public Product makeProduct(String id)
