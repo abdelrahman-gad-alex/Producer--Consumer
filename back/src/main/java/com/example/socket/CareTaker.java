@@ -11,7 +11,7 @@ public class CareTaker
     }
     public void addProduct(Product product)
     {
-        products.add(product);
+        products.addLast(product);
     }
     public Product getProduct()
     {
