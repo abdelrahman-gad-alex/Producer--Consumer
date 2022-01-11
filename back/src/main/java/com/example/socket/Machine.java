@@ -40,7 +40,7 @@ public class Machine implements Observable, Runnable
         System.out.println("kjkkkkkkk   " + this.queuesBefore.get(0));
         for (Queue queue : this.queuesBefore) {
             System.out.println("oooooo " + queue.getId());
-//            queue.update();
+            queue.update();
         }
 //        System.out.println("oooooo " + queueAfter.getId());
         this.queueAfter.update();
