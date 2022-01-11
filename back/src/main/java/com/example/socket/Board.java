@@ -110,12 +110,7 @@ public class Board
             first.removeProducts();
             for (int i = 0; i < n ; i++) {
 
-                Product product = careTaker.getProduct();
-                first.addProduct(product);
-
                 Product tempProduct = careTaker.getProduct();
-                System.out.println(tempProduct.getId() + "  here");
-
                 Timer timer = new Timer();
                 timer.schedule(new TimerTask() {
                     @Override
