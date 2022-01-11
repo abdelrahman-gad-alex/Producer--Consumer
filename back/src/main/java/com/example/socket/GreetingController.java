@@ -98,5 +98,10 @@ public class GreetingController {
         B.makemachine(Frontm);
         B.n=Integer.parseInt(products);
     }
-
+  @GetMapping("/replay")
+    public void replay()
+  {
+      System.out.println("yes");
+      B.replay();
+  }
 }

@@ -207,7 +207,18 @@ import { WebSocketAPI } from '../WebSocketAPI';
           })
 
   }
-
+ replay()
+ {
+  this.http.get('http://localhost:8080/replay',{
+    responseType:'text',
+    params:{ 
+       
+    },
+    observe:'response'
+  }).subscribe(response=>{
+    console.log(response.body!)
+  })
+ }
   request=new Requests(this.http)
   play(){
     if(this.playMode){

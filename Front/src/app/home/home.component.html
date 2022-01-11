@@ -11,7 +11,7 @@
                 </button>
             </div>
             <div >
-                <button  style="margin-top: 15px;" class="button" [disabled]="!playMode">
+                <button (click)='connect()' (click)='replay()' style="margin-top: 15px;" class="button">
                     <img id="fill" src="assets/photos/Replay.png"style=" margin-left: 10px;height: 62px;" class="creation">
                     <p style="margin-left: 10px;" >Replay</p>
                 </button>
