@@ -12,7 +12,7 @@ public class trying {
         this.not= new wsservice(messagingTemplate);
     }
     public void send2 (HashMap<String,String>send) throws InterruptedException {
-        System.out.println("yes");
+      
         not.notifymess(send);
     }
 }

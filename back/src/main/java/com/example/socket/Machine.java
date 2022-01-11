@@ -29,6 +29,7 @@ public class Machine implements Observable, Runnable
 //        }
        // System.out.println(queueBefore);
         this.id = id;
+        this.queuesBefore = new LinkedList<Queue>();
         this.queueAfter = queueAfter;
 //        this.queuesBefore = queueBefore;
         this.isEmpty = true;
@@ -37,9 +38,9 @@ public class Machine implements Observable, Runnable
     }
     public void notifyAllObservers() throws InterruptedException
     {
-        System.out.println("kjkkkkkkk   " + this.queuesBefore.get(0));
+       // System.out.println("kjkkkkkkk   " + this.queuesBefore.get(0));
         for (Queue queue : this.queuesBefore) {
-            System.out.println("oooooo " + queue.getId());
+         //   System.out.println("oooooo " + queue.getId());
             queue.update();
         }
 //        System.out.println("oooooo " + queueAfter.getId());

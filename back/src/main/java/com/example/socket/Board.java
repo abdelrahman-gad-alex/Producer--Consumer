@@ -16,6 +16,7 @@ public class Board
     int n;
     Queue first;
     trying ty;
+    Machine m ;
     @Autowired
     public Board(trying messagingTemplate)
     {
@@ -51,13 +52,15 @@ public class Board
              //System.out.println(store.get("in"));
              //System.out.println(Queues.get(VAL2));
               //System.out.println("YES");
+              m = new Machine(set.getKey(), Queues.get(VAL1[0]),ty);
              for(int h=0;h< VAL2.length;h++)
              {
                 // System.out.println(VAL2[h]);
-                 w.push(Queues.get(VAL2[0]));
-                 Machine m = new Machine(set.getKey(), Queues.get(VAL1[0]), w,ty);
+                 System.out.println("lol");
+                 System.out.println(Queues.get(VAL2[h]).id);
+                 m.addQueueBefore(Queues.get(VAL2[h]));
              }
-                w.pop();
+              m.addToQueues(m);
           }
           simulate();
       }
