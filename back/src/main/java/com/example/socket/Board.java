@@ -118,11 +118,11 @@ public class Board
             first = this.first;
             for (int i = 0; i < n ; i++) {
                 Product product = careTaker.getProduct();
+                first.addProduct(product);
                 Timer timer = new Timer();
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        first.addProduct(product);
                         try
                         {
                             first.sendProduct();
