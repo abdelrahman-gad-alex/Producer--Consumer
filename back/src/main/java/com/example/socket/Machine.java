@@ -17,17 +17,7 @@ public class Machine implements Observable, Runnable
     Random random = new Random();
     public Machine(String id, Queue queueAfter, trying tt)
     {
-//        System.out.println("id");
-//        System.out.println(id);
-//        System.out.println("after");
-//        System.out.println(queueAfter.id);
         this.tg=tt;
-//        System.out.println("qbefor");
-//        for (int i = 0; i < queueBefore.size(); i++) {
-////            System.out.println("qbefor");
-////            System.out.print(queueBefore.get(i).id + " ");
-//        }
-       // System.out.println(queueBefore);
         this.id = id;
         this.queuesBefore = new LinkedList<Queue>();
         this.queueAfter = queueAfter;

@@ -102,4 +102,31 @@ public class Board
         });
         thread.start();
     }
+    void replay()
+    {
+        thread = new Thread(() ->
+        {
+            first = this.first;
+            for (int i = 0; i < n ; i++) {
+                Product product = careTaker.getProduct();
+                Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        first.addProduct(product);
+                        try
+                        {
+                            first.sendProduct();
+                        }
+                        catch (InterruptedException e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                }, product.getTimeRate());
+            }
+            System.out.println("END");
+        });
+        thread.start();
+    }
 }
