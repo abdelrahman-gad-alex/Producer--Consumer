@@ -12,7 +12,7 @@
                 <input type="number" [(ngModel)]="products" style='width:65px;' placeholder="Products">
             </div>
             <div >
-                <button (click)='connect()' (click)='replay()' style="margin-top: 15px;" class="button">
+                <button (click)='replay()' style="margin-top: 15px;" class="button" [disabled]="!repDis">
                     <img id="fill" src="assets/photos/Replay.png"style=" margin-left: 10px;height: 62px;" class="creation">
                     <p style="margin-left: 10px;" >Replay</p>
                 </button>

@@ -23,7 +23,9 @@ import { WebSocketAPI } from '../WebSocketAPI';
     m:any
     q:any
     b:any
+    repDis:boolean=false
     lastQ:any
+    lastM:any
     products=NaN
     operations: any = new Operation
     Selecting: any = new Selecting
@@ -139,12 +141,24 @@ import { WebSocketAPI } from '../WebSocketAPI';
       else if (IN=="q0"){
         this.queueInc(IN)
       }
+      
       else{
+        for(let i ; i<this.m;i++){
+          var s="m"+i
+          if(this.MQmap.get(s)!.out.length==0){
+            alert ("please finsh each Machine with a Queue")
+          }
+        }
         this.colorReset(OUT)
         this.queueInc(IN)
         if (this.lastQ.ID==IN&&this.lastQ.contain==this.products){
-          this.play()
-          
+          this.disconnect()
+          this.playMode=false
+          document.getElementById('start')!.style.backgroundColor ="rgb(255, 255, 255)";
+          for(let key of this.MQmap.keys()) {
+            this.MQmap.get(key)!.machineGroup.draggable(true)
+        }
+        this.repDis=true
         }
       }
     }
@@ -181,6 +195,8 @@ import { WebSocketAPI } from '../WebSocketAPI';
           var M=new Machine(this.layer,shift,this.m)
           this.MQmap.set(M.ID,M)
           this.m++;
+          this.lastM=M
+
           break;  
         case "Queue":
           var Q=new Queue(this.layer,shift,this.q)
@@ -218,6 +234,8 @@ import { WebSocketAPI } from '../WebSocketAPI';
     this.layer.removeChildren()
     this.q=0
     this.m=0
+    this.products=0
+    this.MQmap=new Map
     this.http.get('http://localhost:8080/clear',{
             responseType:'text',
             params:{ 
@@ -261,16 +279,14 @@ import { WebSocketAPI } from '../WebSocketAPI';
         document.getElementById('start')!.style.backgroundColor ="rgb(255, 255, 255)";
         for(let key of this.MQmap.keys()) {
           this.MQmap.get(key)!.machineGroup.draggable(true)
-          this.disconnect()
-          
       }
-
       }else{
         this.playMode = true
         document.getElementById('start')!.style.backgroundColor ="#777777";
         for(let key of this.MQmap.keys()) {
           this.MQmap.get(key)!.machineGroup.draggable(false)
       }
+      this.repDis=false
       console.log(this.products)
       this.colorAssign(this.products)
       this.lastQ.set(0)
