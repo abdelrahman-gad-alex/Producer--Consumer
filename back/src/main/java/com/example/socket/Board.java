@@ -83,8 +83,8 @@ public class Board
                         careTaker.addProduct(tempProduct);
                         try
                         {
-                            first.addProduct(tempProduct);
-                            careTaker.addProduct(tempProduct);
+//                            first.addProduct(tempProduct);
+//                            careTaker.addProduct(tempProduct);
 //                            if(tempProduct.getId().equals("p2"))
 //                            {
                                 first.sendProduct();
