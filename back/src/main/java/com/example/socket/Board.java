@@ -12,6 +12,7 @@ public class Board
     Originator originator;
     HashMap<String, Queue> Queues = new HashMap<String,Queue>();
     LinkedList<Product> Products = new LinkedList<Product>();
+    HashMap<String,String[]> store;
     Thread thread;
     int n;
     Queue first;
@@ -38,7 +39,7 @@ public class Board
       }
       void makemachine(HashMap<String,HashMap<String,String[]>>machinefront)
       {
-          HashMap<String,String[]> store;
+
           String[] VAL1;
           String[] VAL2;
           String[][] val3 = new String[0][];
@@ -64,6 +65,12 @@ public class Board
           }
           simulate();
       }
+      void clear()
+      {
+          store.clear();
+          Queues.clear();
+          m.clear();
+      }
     void simulate()
     {
         Queue first = this.first;
@@ -73,14 +80,16 @@ public class Board
             for (int i = 0; i < n; i++)
             {
                 Product tempProduct = originator.makeProduct("p" + Integer.toString(i ));
+                first.addProduct(tempProduct);
+                careTaker.addProduct(tempProduct);
 //                System.out.println("Hiiiiiiiiiiii!!!!");
                 Timer timer = new Timer();
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
 //                        first.print();
-                        first.addProduct(tempProduct);
-                        careTaker.addProduct(tempProduct);
+                //        first.addProduct(tempProduct);
+                  //      careTaker.addProduct(tempProduct);
                         try
                         {
 //                            first.addProduct(tempProduct);

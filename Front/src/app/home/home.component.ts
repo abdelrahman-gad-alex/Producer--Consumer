@@ -126,9 +126,7 @@ import { WebSocketAPI } from '../WebSocketAPI';
     */
     rcievemap: Map<string,string> = new Map
     handleMessage(message){
-      
       this.rcievemap=message;
-      console.log(this.rcievemap)
     }
     //for doing the event
     Colormap: Map<number,string> = new Map
@@ -194,9 +192,20 @@ import { WebSocketAPI } from '../WebSocketAPI';
 
   clear()
   {
+    
     this.layer.removeChildren()
     this.q=0
     this.m=0
+    this.http.get('http://localhost:8080/clear',{
+            responseType:'text',
+            params:{ 
+               
+            },
+            observe:'response'
+          }).subscribe(response=>{
+            console.log(response.body!)
+          })
+
   }
 
   request=new Requests(this.http)

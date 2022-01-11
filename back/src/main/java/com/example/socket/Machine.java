@@ -6,14 +6,15 @@ public class Machine implements Observable, Runnable
     Thread thread;
     HashMap<String,String> sent= new HashMap<String,String>();
     trying tg;
+    HashMap<String,String> rec=new HashMap<String,String>();
     private Product currentProduct;
     private String id;
     private LinkedList<Queue> queuesBefore;
     private Queue queueAfter;
     private int time;
     private boolean isEmpty = true;
-    private int min = 1000;
-    private int max = 2000;
+    private int min = 3000;
+    private int max = 8000;
     Random random = new Random();
     public Machine(String id, Queue queueAfter, trying tt)
     {
@@ -81,6 +82,11 @@ public class Machine implements Observable, Runnable
     }
     public void produce() throws InterruptedException
     {
+        rec.put("product",this.currentProduct.getId());
+        rec.put("out",this.currentProduct.getLastQueueIn());
+        rec.put("in",this.id);
+        this.tg.send2(rec);
+        this.isEmpty=false;
         Timer timer = new Timer();
         timer.schedule(new TimerTask()
         {
@@ -124,6 +130,12 @@ public class Machine implements Observable, Runnable
         this.thread.join();
 //        System.out.println(this.thread.isAlive());
         this.notifyAllObservers();
+    }
+    public void clear()
+    {
+        rec.clear();
+        sent.clear();
+
     }
     public void run()
     {

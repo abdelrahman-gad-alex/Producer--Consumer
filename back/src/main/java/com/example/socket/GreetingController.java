@@ -41,6 +41,12 @@ public class GreetingController {
         Thread.sleep(9000); // simulated delay
         return new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getName()) + "!");
     }
+    @GetMapping("/clear")
+    public void clear()
+    {
+        System.out.println("lo");
+        B.clear();
+    }
     @GetMapping("/input")
      public void getmessag(@RequestParam String frontq,@RequestParam String frontm ,@RequestParam String products) throws InterruptedException, IOException, JSONException {
         Frontq=new HashMap<String, HashMap<String, String[]>>();
