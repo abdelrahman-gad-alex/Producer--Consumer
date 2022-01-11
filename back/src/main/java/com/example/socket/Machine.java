@@ -118,7 +118,7 @@ public class Machine implements Observable, Runnable
         out=getId();
         product= this.currentProduct.getId();
         in=this.currentProduct.getLastQueueIn();
-        this.notifyAllObservers();
+//        this.notifyAllObservers();
        // System.out.println(out);
        // System.out.println(product);
         // System.out.println(in);
@@ -131,9 +131,9 @@ public class Machine implements Observable, Runnable
 //              System.out.println("warena");
         }
       this.tg.send2(sent);
-//        this.thread.join();
+        this.thread.join();
 //        System.out.println(this.thread.isAlive());
-//        this.notifyAllObservers();
+        this.notifyAllObservers();
     }
     public void run()
     {
