@@ -25,6 +25,8 @@ public class Machine implements Observable, Runnable
 //        this.queuesBefore = queueBefore;
         this.isEmpty = true;
         time = this.random.nextInt((max - min) + 1) + min;
+        System.out.println("2TB3");
+        System.out.println(time);
 //        this.addToQueues(this);
     }
     public void notifyAllObservers() throws InterruptedException

@@ -13,6 +13,8 @@ public class Board
     HashMap<String, Queue> Queues = new HashMap<String,Queue>();
     LinkedList<Product> Products = new LinkedList<Product>();
     HashMap<String,String[]> store;
+    HashMap<String,String>replay=new HashMap<String,String>();
+    HashMap<String,String> ff=new HashMap<String,String>();
     Thread thread;
     int n;
     Queue first;
@@ -71,6 +73,7 @@ public class Board
           Queues.clear();
           m.clear();
       }
+
     void simulate()
     {
         Queue first = this.first;
@@ -80,13 +83,15 @@ public class Board
             for (int i = 0; i < n; i++)
             {
                 Product tempProduct = originator.makeProduct("p" + Integer.toString(i ));
-                first.addProduct(tempProduct);
-                careTaker.addProduct(tempProduct);
+               // first.addProduct(tempProduct);
+               // careTaker.addProduct(tempProduct);
 //                System.out.println("Hiiiiiiiiiiii!!!!");
                 Timer timer = new Timer();
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
+                        first.addProduct(tempProduct);
+                        careTaker.addProduct(tempProduct);
 //                        first.print();
                 //        first.addProduct(tempProduct);
                   //      careTaker.addProduct(tempProduct);
@@ -96,7 +101,11 @@ public class Board
 //                            careTaker.addProduct(tempProduct);
 //                            if(tempProduct.getId().equals("p2"))
 //                            {
+                            ff.put("product",tempProduct.getId());
+                            ff.put("in","q0");
+                            ty.send2(ff);
                                 first.sendProduct();
+
 //                            }
 //                            first.sendProduct();
                         }
@@ -116,23 +125,35 @@ public class Board
         thread = new Thread(() ->
         {
             first = this.first;
+            first.removeProducts();
             for (int i = 0; i < n ; i++) {
+
                 Product product = careTaker.getProduct();
                 first.addProduct(product);
+
+                Product tempProduct = careTaker.getProduct();
+                System.out.println(tempProduct.getId() + "  here");
+
                 Timer timer = new Timer();
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
+
+                        first.addProduct(tempProduct);
                         try
                         {
+                            replay.put("product",tempProduct.getId());
+                            replay.put("in","q0");
+                            ty.send2(replay);
                             first.sendProduct();
+
                         }
                         catch (InterruptedException e)
                         {
                             e.printStackTrace();
                         }
                     }
-                }, product.getTimeRate());
+                }, tempProduct.getTimeRate());
             }
             System.out.println("END");
         });

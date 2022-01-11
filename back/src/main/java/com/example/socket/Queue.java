@@ -33,7 +33,7 @@ public class Queue implements Observer
     {
     //    System.out.println("JJJJJJJJJJJJJJJJ" + product.getId());
         product.setLastQueueIn(this.id);
-        products.add(product);
+        products.addLast(product);
     }
     public void addMachine(Machine machine)
     {
@@ -75,7 +75,7 @@ public class Queue implements Observer
                     //System.out.println("{{{{{{{");
                     return;
                 }
-                Product product = products.removeLast();
+                Product product = products.removeFirst();
                 machine.setIsEmpty(false);
                 machine.setCurrentProduct(product);
                 System.out.println(product.getId() + " moved from " + this.id + " to " + machine.getId());

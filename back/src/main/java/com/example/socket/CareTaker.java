@@ -15,8 +15,9 @@ public class CareTaker
     }
     public Product getProduct()
     {
-        Product product = products.getLast();
-        products.removeLast();
+        Product product = products.getFirst();
+        products.removeFirst();
+        products.addLast(product);
         return product;
     }
 }
