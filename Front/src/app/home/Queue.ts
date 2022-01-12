@@ -129,7 +129,10 @@ class Queue implements Factory{
                 else
                 TXT.opacity(0)
                 }
-                else anim.stop()
+                else {
+                  anim.stop()
+                  TXT.destroy()
+                }
                 // scale only y
               }, this.layer);
               anim.start();
@@ -150,7 +153,10 @@ class Queue implements Factory{
                 else
                 TXT.opacity(0)
                 }
-                else anim.stop()
+                else {
+                  anim.stop()
+                  TXT.destroy()
+                }
                 // scale only y
               }, this.layer);
               anim.start();
