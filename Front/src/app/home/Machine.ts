@@ -91,7 +91,18 @@ class Machine implements Factory{
     update(color:string){
       var x=this.machineGroup.findOne("#Cir")
       x.setAttr("fill",color)
-      
+      if(color=="red"){
+        var anim = new Konva.Animation(function (frame) {
+          var scale = Math.abs(Math.sin((frame.time * 2 * Math.PI) / 2000)) /4+ 1;
+          console.log(frame.time+" , "+scale)
+          // scale x and y
+          if(frame.time<1012)
+          x.scale({ x: scale, y: scale });
+          // scale only y
+        }, this.layer);
+        anim.start();
+        
+      }
     }
 set(x: number): void {
     
