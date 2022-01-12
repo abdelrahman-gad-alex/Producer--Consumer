@@ -103,10 +103,59 @@ class Queue implements Factory{
     }
 
     update(x:string): void {
-        if(x=="inc")
+        var TXT= new Konva.Text({
+            x:20,
+            text:"+1",
+            fontFamily: 'Calibri',
+            fontSize: 30,
+            fontStyle:('bold'),
+            fill: '#000',
+            padding: 5,
+            align: 'center',
+          }) 
+          this.machineGroup.add(TXT)
+          TXT.moveToBottom()
+
+        if(x=="inc"){
             this.contain++
-        if(x=="dec")
+            var anim = new Konva.Animation(function (frame) {
+                var scale = (frame.time)%1012
+                console.log(frame.time+" , "+scale)
+                // scale x and y
+                if(frame.time<1012){
+                TXT.y((-30)-Math.ceil(scale/6));
+                if((Math.ceil(1000-scale)/1011)>=0)
+                TXT.opacity( Math.ceil(1000-scale)/1011)
+                else
+                TXT.opacity(0)
+                }
+                else anim.stop()
+                // scale only y
+              }, this.layer);
+              anim.start();
+              
+            }
+        
+        if(x=="dec"){
             this.contain--
+            TXT.text("-1")
+            var anim = new Konva.Animation(function (frame) {
+                var scale = (frame.time)%1012
+                console.log(frame.time+" , "+scale)
+                // scale x and y
+                if(frame.time<1012){
+                TXT.y((40)+Math.ceil(scale/6));
+                if((Math.ceil(1000-scale)/1011)>=0)
+                TXT.opacity( Math.ceil(1000-scale)/1011)
+                else
+                TXT.opacity(0)
+                }
+                else anim.stop()
+                // scale only y
+              }, this.layer);
+              anim.start();
+
+            }
         var xx=this.machineGroup.findOne("#contain")
         console.log("this.contain")
         xx.setAttr("text",this.contain.toString())

@@ -99,6 +99,7 @@ class Machine implements Factory{
           if(frame.time<1012)
           x.scale({ x: scale, y: scale });
           // scale only y
+          else anim.stop()
         }, this.layer);
         anim.start();
         
