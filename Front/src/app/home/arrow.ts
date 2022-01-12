@@ -18,10 +18,11 @@ class Arrow{
         console.log(shape1.inn.find(x=>x==id2))
 
         if(id1.charAt(0) == id2.charAt(0) || shape1.inn.find(x=>x==id2)!=undefined ||shape1.out.find(x=>x==id2) !=undefined ){
-           console.log("M4 rasem")
+            alert("Invalid Arrow")
             return
         }
         if(id1.charAt(0)=='m' && shape1.out.length>0 ){
+            alert("Machine should have just 1 arrow out of it")
             return
         }
         shape1.out.push(id2)
