@@ -31,7 +31,6 @@ public class Queue implements Observer
     }
     public void addProduct(Product product)
     {
-    //    System.out.println("JJJJJJJJJJJJJJJJ" + product.getId());
         product.setLastQueueIn(this.id);
         products.addLast(product);
     }
@@ -63,16 +62,14 @@ public class Queue implements Observer
     {
         for (Machine machine : machines)
         {
-            //System.out.println("Hiiiii");
             if (machine.getIsEmpty())
             {
                 if (products.isEmpty())
                 {
                     if(this.id.equals("q0"))
                     {
-                      //  System.out.println("{{{{{{{");
+
                     }
-                    //System.out.println("{{{{{{{");
                     return;
                 }
                 Product product = products.removeFirst();

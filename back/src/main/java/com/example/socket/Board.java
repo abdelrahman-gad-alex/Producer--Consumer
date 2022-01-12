@@ -28,10 +28,8 @@ public class Board
           for (Map.Entry<String, HashMap<String, String[]>> set : queuefront.entrySet()) {
 
               Queue q = new Queue(set.getKey());
-             // System.out.println(set.getKey());
                if(set.getKey().equals("q0"))
                {
-                   System.out.println("a7a");
                    first=q;
                }
               Queues.put(set.getKey(),q);
@@ -42,9 +40,7 @@ public class Board
 
           String[] VAL1;
           String[] VAL2;
-          String[][] val3 = new String[0][];
           LinkedList<Queue> w =new LinkedList<Queue>();
-          String[][] val4 = new String[0][];
           int j=0;
           for (Map.Entry<String, HashMap<String, String[]>> set : machinefront.entrySet()) {
              store =set.getValue();
@@ -53,8 +49,6 @@ public class Board
               m = new Machine(set.getKey(), Queues.get(VAL1[0]),ty);
              for(int h=0;h< VAL2.length;h++)
              {
-                 System.out.println("lol");
-                 System.out.println(Queues.get(VAL2[h]).id);
                  m.addQueueBefore(Queues.get(VAL2[h]));
              }
               m.addToQueues(m);
@@ -98,7 +92,6 @@ public class Board
                     }
                 }, tempProduct.getTimeRate());
             }
-            System.out.println("END");
         });
         thread.start();
     }
@@ -132,7 +125,6 @@ public class Board
                     }
                 }, tempProduct.getTimeRate());
             }
-            System.out.println("END");
         });
         thread.start();
     }

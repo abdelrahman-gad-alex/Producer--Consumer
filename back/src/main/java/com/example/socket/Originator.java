@@ -10,10 +10,7 @@ public class Originator
     private int timeRate;
     public Product makeProduct(String id)
     {
-
        int n =this.random.nextInt((this.max - this.min) + 1) + this.min;
-       System.out.println("time");
-       System.out.println(n);
         Product product = new Product(id, n);
         return product;
     }

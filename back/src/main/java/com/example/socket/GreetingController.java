@@ -25,7 +25,6 @@ import java.util.HashMap;
 public class GreetingController {
     HashMap<String,HashMap<String,String[]>>Frontq;
     HashMap<String,HashMap<String,String[]>>Frontm;
-    //OjectMapper mapper = new ObjectMapper();
     trying t;
     Board B;
     @Autowired
@@ -34,17 +33,9 @@ public class GreetingController {
         this.t= new trying(messagingTemplate);
        B =new Board(t);
     }
-
-    @MessageMapping("/hello")
-    @SendTo("/topic/greetings")
-    public Greeting greeting(HelloMessage message) throws Exception {
-        Thread.sleep(9000); // simulated delay
-        return new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getName()) + "!");
-    }
     @GetMapping("/clear")
     public void clear()
     {
-        System.out.println("lo");
         B.clear();
     }
     @GetMapping("/input")
@@ -92,8 +83,7 @@ public class GreetingController {
         }
 
         ///////////////////////////////
-        System.out.println(Frontq.toString());
-        System.out.println(Frontm.toString());
+
         B.makequeue(Frontq);
         B.makemachine(Frontm);
         B.n=Integer.parseInt(products);
@@ -101,7 +91,6 @@ public class GreetingController {
   @GetMapping("/replay")
     public void replay()
   {
-      System.out.println("yes");
       B.replay();
   }
 }
