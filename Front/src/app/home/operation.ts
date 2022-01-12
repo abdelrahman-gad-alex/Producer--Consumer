@@ -32,10 +32,6 @@ class Operation{
     }
 
 
-    delete(shapes: Konva.Shape[]){
-        for(let i=0 ; i< shapes.length ; i++)
-            shapes[i].destroy()
-    }
 
 
 }
