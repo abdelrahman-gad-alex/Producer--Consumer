@@ -96,7 +96,57 @@ class Arrow{
     }
 
 
+/*
+    Arrow(){
+        this.sh1 = this.shape1.machineGroup
+        this.sh2 = this.shape2.machineGroup
+        let pos = this.getShorterBath()
+        let pos1 = pos[0]
+        let pos2 = pos[1]
+        let x=(pos1.x+pos2.x)/2
+        let y=100
+        console.log(this.sh1,this.sh2)
+        var shp=new Konva.Group({})
+        shp.add(new Konva.Arrow({
+            points: [x , pos1.y+y  , pos2.x , pos2.y ],
+            pointerLength: 10,
+            pointerWidth: 10,
+            fill: 'black',
+            stroke: 'black',
+            strokeWidth: 4
+        }))
+        shp.add(new Konva.Line({
+            points: [pos1.x , pos1.y  , x , pos1.y+y ],
+            pointerLength: 10,
+            pointerWidth: 10,
+            fill: 'black',
+            stroke: 'black',
+            strokeWidth: 4
+        }))
+        
+        return shp 
 
+
+    }
+    public update(){
+        let pos = this.getShorterBath()
+        console.log ("mawhoom")
+        let pos1 = pos[0]
+        let pos2 = pos[1]
+        var p1=[pos1.x , pos1.y  , (pos1.x+pos2.x)/2, pos1.y+100 ];
+        var p2=[(pos1.x+pos2.x)/2 , pos1.y+100  , pos2.x , pos2.y ];
+        var arrow = this.arrow.getChildren(function(node){
+            return node.getClassName() === 'Arrow';
+         });
+         var line = this.arrow.getChildren(function(node){
+            return node.getClassName() === 'Line';
+         });
+         line[0].setAttr("points", p1) ;
+        arrow[0].setAttr("points", p2) ;
+        this.layer.draw();
+
+    }
+    */
 
 
 }
