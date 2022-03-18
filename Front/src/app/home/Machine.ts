@@ -27,7 +27,7 @@ class Machine implements Factory{
 
           shp.add(new Konva.Circle({
             
-            radius:75/2,
+            radius:40/2,
             stroke: "rgb(0,0,0)",
             strokeWidth: 3,
             fill: this.color,
@@ -35,9 +35,9 @@ class Machine implements Factory{
             id:"Cir"
         }));
           shp.add(new Konva.Text({
-            x:-25,
+            x:-25/2,
             y:-20,
-            text:"M"+m,
+            text:m.toString(),
             fontSize: 30,
             fontStyle:('bold'),
             fontFamily: 'Calibri',
@@ -48,7 +48,7 @@ class Machine implements Factory{
           }));
           shp.add(new Konva.Rect({
             x:0,
-            y:75/2,
+            y:40/2,
             width:0,
             height: 0,
             name:"1"
@@ -56,14 +56,14 @@ class Machine implements Factory{
         }))
         shp.add(new Konva.Rect({
             x:0,
-            y:-75/2,
+            y:-40/2,
             width:0,
             height: 0,
             name:"2"
 
         }))
         shp.add(new Konva.Rect({
-            x:75/2,
+            x:40/2,
             y:0,
             width:0,
             height: 0,
@@ -71,7 +71,7 @@ class Machine implements Factory{
 
         }))
         shp.add(new Konva.Rect({
-            x:-75/2,
+            x:-40/2,
             y:0,
             width:0,
             height: 0,
